@@ -718,6 +718,126 @@ body {
     background-color: #e0e0e0;
 }
 
+/* Reply Box in Comment Center */
+.reply-box {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed var(--border);
+}
+
+.reply-textarea {
+    width: 100%;
+    min-height: 60px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--lightBorder);
+    font-family: inherit;
+    font-size: 0.9rem;
+    resize: vertical;
+    margin-bottom: 10px;
+}
+
+.reply-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.reply-controls .generate-reply-btn,
+.reply-controls .send-reply-btn {
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid var(--lightBorder);
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.reply-controls .send-reply-btn {
+    background-color: #1a73e8;
+    color: white;
+    border-color: #1a73e8;
+}
+
+.reply-controls .send-reply-btn:hover {
+    background-color: #1765cc;
+}
+
+.reply-controls .generate-reply-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.reply-controls .generate-reply-btn .loader {
+    width: 16px;
+    height: 16px;
+    border-width: 2px;
+    border-color: #333;
+    border-bottom-color: transparent;
+}
+
+/* Custom Dropdown for Dashboard */
+.custom-dropdown {
+    position: relative;
+}
+
+.custom-dropdown .dropdown-trigger {
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid var(--lightBorder);
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 120px;
+}
+
+.custom-dropdown .dropdown-trigger:hover {
+    background-color: #e0e0e0;
+}
+
+.custom-dropdown .dropdown-arrow {
+    font-size: 0.8rem;
+    margin-left: 8px;
+}
+
+.custom-dropdown .dropdown-options {
+    position: absolute;
+    bottom: 100%; /* Position above the trigger */
+    left: 0;
+    background-color: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    list-style: none;
+    margin: 0 0 5px 0;
+    padding: 5px 0;
+    z-index: 10;
+    display: none;
+    max-height: 200px;
+    overflow-y: auto;
+    min-width: 150px;
+}
+
+.custom-dropdown .dropdown-options li {
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.custom-dropdown .dropdown-options li:hover {
+    background-color: #f0f0f0;
+}
+
 
 /* footer */
 .footer-box {

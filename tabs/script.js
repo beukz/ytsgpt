@@ -274,6 +274,57 @@ document.addEventListener("DOMContentLoaded", async function () {
           container.innerHTML = '<p>No channel selected. Please go back to the dashboard and select a channel.</p>';
         }
     }
+
+    const commentListContainer = document.getElementById('comment-list-container');
+    if (commentListContainer) {
+        commentListContainer.addEventListener('click', (event) => {
+            const replyBtn = event.target.closest('.reply-btn');
+            if (replyBtn) {
+                const commentId = replyBtn.dataset.commentId;
+                toggleReplyBox(commentId);
+                return;
+            }
+
+            const generateBtn = event.target.closest('.generate-reply-btn');
+            if (generateBtn) {
+                generateReplyInDashboard(generateBtn);
+                return;
+            }
+
+            const sendBtn = event.target.closest('.send-reply-btn');
+            if (sendBtn) {
+                const commentId = sendBtn.dataset.commentId;
+                postReply(commentId);
+                return;
+            }
+
+            // Dropdown logic
+            const dropdownTrigger = event.target.closest('.dropdown-trigger');
+            if (dropdownTrigger) {
+                const optionsContainer = dropdownTrigger.nextElementSibling;
+                optionsContainer.style.display = optionsContainer.style.display === 'block' ? 'none' : 'block';
+                return;
+            }
+
+            const dropdownOption = event.target.closest('.dropdown-options li');
+            if (dropdownOption) {
+                const dropdown = dropdownOption.closest('.custom-dropdown');
+                const selectedOption = dropdown.querySelector('.selected-option');
+                selectedOption.textContent = dropdownOption.textContent;
+                dropdownOption.parentElement.style.display = 'none';
+                return;
+            }
+        });
+
+        // Close dropdown if clicked outside
+        document.addEventListener('click', function (event) {
+            if (!event.target.closest('.custom-dropdown')) {
+                document.querySelectorAll('.dropdown-options').forEach(options => {
+                    options.style.display = 'none';
+                });
+            }
+        });
+    }
   }
 });
 
@@ -456,35 +507,210 @@ function displayComments(comments, videoTitleMap) {
     const container = document.getElementById('comment-list-container');
     container.innerHTML = ''; // Clear loader
 
-    comments.forEach(item => {
-        const topLevelComment = item.snippet.topLevelComment.snippet;
-        const videoId = item.snippet.videoId;
-        const videoTitle = videoTitleMap.get(videoId) || 'Unknown Video';
-        
-        const publishedDate = new Date(topLevelComment.publishedAt);
-        const timeAgoStr = timeAgo(publishedDate);
-
-        const commentElement = document.createElement('div');
-        commentElement.className = 'comment-item';
-        commentElement.innerHTML = `
-            <div class="commenter-avatar">
-                <img src="${topLevelComment.authorProfileImageUrl}" alt="${topLevelComment.authorDisplayName}">
-            </div>
-            <div class="comment-content">
-                <div class="comment-header">
-                    <span class="commenter-name">${topLevelComment.authorDisplayName}</span>
-                    <span class="comment-date">${timeAgoStr}</span>
-                </div>
-                <div class="comment-text">${topLevelComment.textDisplay}</div>
-                <div class="comment-video-context">
-                    Comment on: <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank">${videoTitle}</a>
-                </div>
-                <div class="comment-actions">
-                    <button class="reply-btn" data-comment-id="${item.snippet.topLevelComment.id}">Reply</button>
-                </div>
-            </div>
+    chrome.storage.local.get(["customTones"], (settings) => {
+        const customTones = settings.customTones || [];
+        let tonesListHtml = `
+            <li data-value="neutral">Neutral</li>
+            <li data-value="formal">Formal</li>
+            <li data-value="casual">Casual</li>
+            <li data-value="supportive">Supportive</li>
+            <li data-value="disagree">Disagree</li>
+            <li data-value="hahaha">Hahaha</li>
+            <li data-value="posh">Posh</li>
+            <li data-value="witty">Witty</li>
+            <li data-value="sarcastic">Sarcastic</li>
+            <li data-value="roast">Roast</li>
+            <li data-value="GenZ-slang">GenZ Slang</li>
+            <li data-value="playful">Playful</li>
+            <li data-value="nerdy">Nerdy</li>
         `;
-        container.appendChild(commentElement);
+        customTones.forEach(tone => {
+            const dataValue = tone.toLowerCase().replace(/\s+/g, '-');
+            tonesListHtml += `<li data-value="${dataValue}">${tone}</li>`;
+        });
+
+        comments.forEach(item => {
+            const topLevelComment = item.snippet.topLevelComment.snippet;
+            const topLevelCommentId = item.snippet.topLevelComment.id;
+            const videoId = item.snippet.videoId;
+            const videoTitle = videoTitleMap.get(videoId) || 'Unknown Video';
+            
+            const publishedDate = new Date(topLevelComment.publishedAt);
+            const timeAgoStr = timeAgo(publishedDate);
+
+            const commentElement = document.createElement('div');
+            commentElement.className = 'comment-item';
+            commentElement.innerHTML = `
+                <div class="commenter-avatar">
+                    <img src="${topLevelComment.authorProfileImageUrl}" alt="${topLevelComment.authorDisplayName}">
+                </div>
+                <div class="comment-content">
+                    <div class="comment-header">
+                        <span class="commenter-name">${topLevelComment.authorDisplayName}</span>
+                        <span class="comment-date">${timeAgoStr}</span>
+                    </div>
+                    <div class="comment-text">${topLevelComment.textDisplay}</div>
+                    <div class="comment-video-context">
+                        Comment on: <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank">${videoTitle}</a>
+                    </div>
+                    <div class="comment-actions">
+                        <button class="reply-btn" data-comment-id="${topLevelCommentId}">Reply</button>
+                    </div>
+                    <div class="reply-box" id="reply-box-${topLevelCommentId}" style="display: none;">
+                        <textarea class="reply-textarea" placeholder="Add a reply..."></textarea>
+                        <div class="reply-controls">
+                            <div class="tone-selector custom-dropdown">
+                                <div class="dropdown-trigger">
+                                    <span class="selected-option">Neutral</span>
+                                    <span class="dropdown-arrow">&#9662;</span>
+                                </div>
+                                <ul class="dropdown-options">
+                                    ${tonesListHtml}
+                                </ul>
+                            </div>
+                            <button class="generate-reply-btn" data-comment-id="${topLevelCommentId}">
+                                <span class="btn-text">Generate</span>
+                                <span class="loader"></span>
+                            </button>
+                            <button class="send-reply-btn" data-comment-id="${topLevelCommentId}">Send</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(commentElement);
+        });
+    });
+}
+
+function toggleReplyBox(commentId) {
+    const replyBox = document.getElementById(`reply-box-${commentId}`);
+    if (replyBox) {
+        const isHidden = replyBox.style.display === 'none';
+        replyBox.style.display = isHidden ? 'block' : 'none';
+        if (isHidden) {
+            replyBox.querySelector('textarea').focus();
+        }
+    }
+}
+
+async function generateReplyInDashboard(button) {
+    const commentId = button.dataset.commentId;
+    const commentItem = button.closest('.comment-item');
+    const replyBox = document.getElementById(`reply-box-${commentId}`);
+    const textarea = replyBox.querySelector('.reply-textarea');
+    
+    const originalCommentText = commentItem.querySelector('.comment-text').textContent.trim();
+    const videoTitle = commentItem.querySelector('.comment-video-context a').textContent.trim();
+    const selectedTone = replyBox.querySelector('.selected-option').textContent.trim();
+
+    const btnText = button.querySelector('.btn-text');
+    const loader = button.querySelector('.loader');
+
+    chrome.storage.local.get(["user", "channelTopic", "appendMessageEnabled", "appendMessageText"], async (result) => {
+        if (!result.user) {
+            alert("User not found. Please log in again.");
+            return;
+        }
+
+        btnText.style.display = 'none';
+        loader.style.display = 'inline-block';
+        button.disabled = true;
+
+        try {
+            const response = await fetch(
+                "https://qrnnthitqgpiowixmlpd.supabase.co/functions/v1/generate-comment",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "apikey": SUPABASE_ANON_KEY,
+                        "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+                    },
+                    body: JSON.stringify({
+                        comment: originalCommentText,
+                        tone: selectedTone,
+                        email: result.user.email,
+                        videoTitle: videoTitle,
+                        appendMessageEnabled: result.appendMessageEnabled,
+                        appendMessageText: result.appendMessageText,
+                    }),
+                }
+            );
+
+            const data = await response.json();
+
+            if (data.success && data.generated_comment) {
+                textarea.value = data.generated_comment;
+                textarea.dispatchEvent(new Event('input', { bubbles: true })); // For potential height adjustment
+            } else {
+                throw new Error(data.message || `HTTP error! status: ${response.status}`);
+            }
+        } catch (error) {
+            console.error("Error generating reply:", error);
+            textarea.value = `Error: ${error.message}`;
+        } finally {
+            btnText.style.display = 'inline';
+            loader.style.display = 'none';
+            button.disabled = false;
+        }
+    });
+}
+
+async function postReply(commentId) {
+    const replyBox = document.getElementById(`reply-box-${commentId}`);
+    const textarea = replyBox.querySelector('.reply-textarea');
+    const sendBtn = replyBox.querySelector('.send-reply-btn');
+    const replyText = textarea.value.trim();
+
+    if (!replyText) {
+        alert('Reply cannot be empty.');
+        return;
+    }
+
+    sendBtn.textContent = 'Sending...';
+    sendBtn.disabled = true;
+
+    chrome.identity.getAuthToken({ interactive: false }, async function(token) {
+        if (chrome.runtime.lastError || !token) {
+            alert('Could not authenticate. Please re-authorize on the dashboard.');
+            sendBtn.textContent = 'Send';
+            sendBtn.disabled = false;
+            return;
+        }
+
+        try {
+            const response = await fetch('https://www.googleapis.com/youtube/v3/comments?part=snippet', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    snippet: {
+                        parentId: commentId,
+                        textOriginal: replyText
+                    }
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                const errorMessage = data.error?.errors?.[0]?.message || data.error?.message || 'Failed to post reply.';
+                throw new Error(errorMessage);
+            }
+
+            alert('Reply posted successfully!');
+            textarea.value = '';
+            toggleReplyBox(commentId);
+
+        } catch (error) {
+            console.error('Error posting reply:', error);
+            alert(`Failed to post reply: ${error.message}`);
+        } finally {
+            sendBtn.textContent = 'Send';
+            sendBtn.disabled = false;
+        }
     });
 }
 
