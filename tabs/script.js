@@ -360,12 +360,90 @@ function authorizeWithYouTube() {
     });
 }
 
+async function fetchAndDisplaySavedChannels() {
+    console.log("tabs/script.js: Fetching saved channels from database.");
+    const channelsListContainer = document.getElementById('connected-channels-list');
+    if (!channelsListContainer) return;
+
+    channelsListContainer.innerHTML = '<p>Loading your channels...</p>';
+
+    try {
+        const { 'supabase.auth.token': accessToken } = await new Promise(resolve => chrome.storage.local.get(['supabase.auth.token'], resolve));
+        if (!accessToken) {
+            throw new Error("Not authenticated.");
+        }
+
+        const response = await fetch(`${SUPABASE_URL}/functions/v1/get-yt-channels`, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'apikey': SUPABASE_ANON_KEY
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch channels: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        if (data.success && data.channels.length > 0) {
+            console.log("tabs/script.js: Displaying saved channels.", data.channels);
+            displayChannels(data.channels);
+        } else {
+            console.log("tabs/script.js: No saved channels found.");
+            channelsListContainer.innerHTML = '<p>Authorize with YouTube to connect your channels.</p>';
+        }
+    } catch (error) {
+        console.error("tabs/script.js: Error fetching saved channels:", error);
+        channelsListContainer.innerHTML = '<p>Could not load channels. Please try authorizing again.</p>';
+    }
+}
+
+async function saveChannelsToDB(channels) {
+    console.log("tabs/script.js: Saving channels to database.");
+    try {
+        const { 'supabase.auth.token': accessToken } = await new Promise(resolve => chrome.storage.local.get(['supabase.auth.token'], resolve));
+        if (!accessToken) {
+            throw new Error("Not authenticated for saving channels.");
+        }
+
+        // We need to format the data to match our database schema
+        const formattedChannels = channels.map(channel => ({
+            channel_id: channel.id,
+            title: channel.snippet.title,
+            thumbnail_url: channel.snippet.thumbnails.default.url,
+            subscriber_count: parseInt(channel.statistics.subscriberCount, 10)
+        }));
+
+        const response = await fetch(`${SUPABASE_URL}/functions/v1/save-yt-channels`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'apikey': SUPABASE_ANON_KEY,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ channels: formattedChannels })
+        });
+
+        const result = await response.json();
+        if (!result.success) {
+            throw new Error(result.message || "Failed to save channels.");
+        }
+        console.log("tabs/script.js: Channels saved successfully.");
+
+    } catch (error) {
+        console.error("tabs/script.js: Error saving channels to DB:", error);
+        // We don't need to alert the user here, as they already see the channels.
+        // This is a background process.
+    }
+}
+
 async function fetchYouTubeChannels(token) {
     const btn = document.getElementById('connect-channel-btn');
-    const originalText = "Authorize with YouTube";
+    const originalText = "Connect / Refresh Channels";
     if (btn) btn.textContent = 'Fetching Channels...';
 
-    console.log("tabs/script.js: Fetching YouTube channels...");
+    console.log("tabs/script.js: Fetching YouTube channels from API...");
     try {
         const response = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&mine=true', {
             headers: {
@@ -378,17 +456,20 @@ async function fetchYouTubeChannels(token) {
             if (response.status === 401) {
                 console.log("tabs/script.js: Auth token is invalid or expired. Removing it.");
                 chrome.identity.removeCachedAuthToken({ token: token }, () => {
-                     alert("Your authorization has expired. Please click the 'Authorize with YouTube' button again.");
+                     alert("Your authorization has expired. Please click the button again.");
                 });
             }
             throw new Error(`Google API responded with status: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log("tabs/script.js: Received channel data:", data);
+        console.log("tabs/script.js: Received channel data from API:", data);
 
         if (data.items && data.items.length > 0) {
+            // Immediately display the channels for a good UX
             displayChannels(data.items);
+            // Then, save them to the database in the background
+            saveChannelsToDB(data.items);
         } else {
             const channelsList = document.getElementById('connected-channels-list');
             if (channelsList) {
@@ -410,23 +491,28 @@ function displayChannels(channels) {
     const channelsListContainer = document.getElementById('connected-channels-list');
     if (!channelsListContainer) return;
 
-    // Clear the placeholder text
     channelsListContainer.innerHTML = ''; 
 
     channels.forEach(channel => {
-        const snippet = channel.snippet;
-        const stats = channel.statistics;
+        // The data structure from our DB is slightly different from the YouTube API response.
+        // We need to handle both cases.
+        const isFromApi = !!channel.snippet;
+        
+        const channelId = isFromApi ? channel.id : channel.channel_id;
+        const title = isFromApi ? channel.snippet.title : channel.title;
+        const thumbnailUrl = isFromApi ? channel.snippet.thumbnails.default.url : channel.thumbnail_url;
+        const subscriberCount = isFromApi ? channel.statistics.subscriberCount : channel.subscriber_count;
 
         const channelLink = document.createElement('a');
         channelLink.className = 'connected-channel-item-link';
-        channelLink.href = `comment-center.html?channelId=${channel.id}&channelTitle=${encodeURIComponent(snippet.title)}`;
+        channelLink.href = `comment-center.html?channelId=${channelId}&channelTitle=${encodeURIComponent(title)}`;
 
         channelLink.innerHTML = `
             <div class="connected-channel-item">
-                <img src="${snippet.thumbnails.default.url}" alt="${snippet.title} thumbnail" class="channel-thumbnail">
+                <img src="${thumbnailUrl}" alt="${title} thumbnail" class="channel-thumbnail">
                 <div class="channel-info">
-                    <h4 class="channel-title">${snippet.title}</h4>
-                    <p class="channel-subs">${parseInt(stats.subscriberCount).toLocaleString()} subscribers</p>
+                    <h4 class="channel-title">${title}</h4>
+                    <p class="channel-subs">${parseInt(subscriberCount).toLocaleString()} subscribers</p>
                 </div>
             </div>
         `;
@@ -831,6 +917,12 @@ async function checkLoginStatus() {
     }
 
     updateUserInfo(user);
+
+    // If on dashboard, fetch saved channels
+    if (document.body.dataset.title === "Dashboard") {
+        fetchAndDisplaySavedChannels();
+    }
+
   } else {
     console.log("tabs/script.js: User is not logged in. Please log in via the popup.");
     // Loader remains active, showing the login prompt from the HTML.
