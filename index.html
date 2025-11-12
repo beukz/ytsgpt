@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="styles/content.css">
+    <link rel="stylesheet" href="styles/loader.css">
+
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="div">
+        <div class="ytcp-comment-thread">
+            <div id="comment-container">
+                <yt-formatted-string id="content-text" class="style-scope ytcp-comment">
+                    Why do people shake their head No, when they’re eating something they like
+                </yt-formatted-string>
+                <tp-yt-iron-autogrow-textarea>
+                    <div id="mirror" class="mirror-text style-scope tp-yt-iron-autogrow-textarea"></div>
+                    <div class="textarea-container fit style-scope tp-yt-iron-autogrow-textarea">
+                        <textarea id="textarea" class="style-scope tp-yt-iron-autogrow-textarea" rows="1"
+                            placeholder="Add a reply..."></textarea>
+                    </div>
+                </tp-yt-iron-autogrow-textarea>
+            </div>
+            <!-- Reply button and injected elements below -->
+            <div class="tone-selector custom-dropdown">
+                <div class="dropdown-trigger">
+                    <span class="selected-option">Select Tone</span>
+                    <span class="dropdown-arrow">&#9662;</span> <!-- Down arrow icon -->
+                </div>
+                <ul class="dropdown-options">
+                    <li data-value="neutral">Neutral</li>
+                    <li data-value="formal" class="pro-plan">Formal</li>
+                    <li data-value="casual"> <span class="option-text">Casual</span></li>
+                    <li data-value="supportive">Supportive</li>
+                    <li data-value="disagree">Disagree</li>
+                    <li data-value="posh">Posh</li>
+                    <li data-value="witty">Witty</li>
+                    <li data-value="sarcastic">Sarcastic</li>
+                    <li data-value="roast">Roast</li>
+                    <li data-value="GenZ-slang">GenZ Slang</li>
+                    <li data-value="playful">Playful</li>
+                    <li data-value="nerdy">Nerdy</li>
+                </ul>
+            </div>
+            <button class="generate-comment-button"><span class="btn-text">Generate Comment </span><span
+                    class="loader"></span> </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.tone-selector.custom-dropdown').forEach(dropdown => {
+                const trigger = dropdown.querySelector('.dropdown-trigger');
+                const optionsContainer = dropdown.querySelector('.dropdown-options');
+                const selectedOption = dropdown.querySelector('.selected-option');
+
+                // Toggle dropdown visibility
+                trigger.addEventListener('click', function () {
+                    optionsContainer.style.display = optionsContainer.style.display === 'block' ? 'none' : 'block';
+                });
+
+                // Handle option selection
+                optionsContainer.querySelectorAll('li').forEach(option => {
+                    option.addEventListener('click', function () {
+                        selectedOption.textContent = this.textContent;
+                        optionsContainer.style.display = 'none';
+
+                        // You can now use this value in your existing generateComment function
+                        const selectedTone = this.getAttribute('data-value');
+                        generateComment(replyButton, selectedTone);
+                    });
+                });
+
+                // Close dropdown if clicked outside
+                document.addEventListener('click', function (event) {
+                    if (!dropdown.contains(event.target)) {
+                        optionsContainer.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>

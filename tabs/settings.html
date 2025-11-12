@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Settings</title>
+
+  <!-- stylesheets -->
+  <link rel="stylesheet" href="/tabs/style.css">
+
+  <!-- icons -->
+  <link rel='stylesheet'
+    href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-thin-rounded/css/uicons-thin-rounded.css'>
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css'>
+
+</head>
+
+<body data-title="Settings">
+
+  <!-- page loader -->
+  <div class="page-loader" id="pageLoader">
+    <span class="loader"></span>
+    <p style="color: white; margin-top: 15px;">Please log in through the extension popup to continue.</p>
+  </div>
+
+  <!-- navbar -->
+  <div class="navbar-box">
+
+    <!-- nav acc dropdown -->
+    <div class="nav-acc-dropdown" id="navDD">
+      <div class="nav-acc-dd-layer">
+
+        <!-- account top -->
+        <div class="nav-acc-top">
+          <div class="acc-top-img">
+            <i class="fi fi-rr-user"></i> </span>
+          </div>
+          <div class="acc-top-text">
+            <p class="acc-name" id="user-name"></p>
+            <p class="acc-email-name"> <span class="acc-type" id="acc-type"></span> <span class="split-dot"></span>
+              <span class="acc-email" id="user-email"></span>
+            </p>
+          </div>
+        </div>
+
+        <div class="nav-acc-menu menu-sec">
+          <ul>
+
+            <li>
+              <a href="settings.html">
+                <div class="acc-details">
+                  <span class="nav-icon"> <i class="fi fi-rr-settings"></i> </span> <span
+                    class="nav-text">Settings</span>
+                </div>
+                <div class="acc-details-email">
+                  <p></p>
+                </div>
+              </a>
+            </li>
+
+          </ul>
+        </div>
+
+        <!-- acc upgrade box -->
+        <div class="acc-upgrade-box">
+          <div class="acc-ug-box">
+            <div class="ug-box">
+              <p class="ug-title"> Free plan </p>
+              <p class="ug-text"> Upgrade to get the best experience </p>
+            </div>
+
+            <div class="ug-btn">
+              <a href="#" id="paymentLink" target="_blank">
+                Upgrade </a>
+            </div>
+          </div>
+
+          <div class="manage-sub-box" id="manageSubBox">
+            <a href="https://app.lemonsqueezy.com/my-orders" target="_blank"> <span class="man-icon"><i
+                  class="fi fi-rr-user-gear"></i></span> Manage Subscription </a>
+          </div>
+
+        </div>
+
+        <div class="nav-acc-menu btn-sec">
+          <ul>
+
+            <li>
+              <button id="logoutButton">
+                <div class="btn-details">
+                  <span class="nav-icon">
+                    <i class="fi fi-rr-sign-out-alt"></i>
+                  </span>
+                  <span class="nav-text">Logout</span>
+                </div>
+
+                <div class="acc-details-email">
+                  <p></p>
+                </div>
+
+              </button>
+            </li>
+
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="navbar-box-layer">
+
+      <!-- navbar logo sub menu -->
+      <div class="navbar-logo-subMenu-box">
+        <div class="navbar-logo">
+          <img src="/images/ytsgpt-logo.png" alt="YouTube Studio Logo">
+        </div>
+
+        <div class="navbar-subMenu">
+          <ul>
+            <li> <a href="dashboard.html">Dashboard</a> </li>
+            <li> <a href="settings.html" class="active">Settings</a> </li>
+            <li> <a href="pricing.html">Pricing</a> </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- navbar account box -->
+      <div class="navbar-account-box">
+
+        <!-- navbar account buttons -->
+        <div class="navbar-acc-btns">
+          <ul>
+            <li> <a href="https://x.com/mlkvinc" target="_blank">
+              <i class="fi fi-brands-twitter-alt"></i>
+            </a> </li>
+
+            <li> <a href="https://youtubestudiogpt.canny.io/feedback" class="feedback-btn" target="_blank"> Feedback </a> </li>
+          </ul>
+        </div>
+
+        <div class="navbar-account">
+          <div class="navbar-user-info" id="user-info">
+
+            <div class="user-image" id="userImageBox">
+              <img id="user-picture" src="" alt="">
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- main box -->
+  <div class="main-box">
+    <div class="main-box-layer">
+
+      <div class="hero-title">
+        <h1> Settings </h1>
+      </div>
+
+      <div class="settings-grid">
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <h3>Comment Settings</h3>
+            <p>Customize how AI-generated comments are created.</p>
+          </div>
+          <div class="settings-card-body">
+            <div class="form-group">
+              <label for="default-tone-select">Default Comment Tone</label>
+              <p class="form-group-description">Set a default tone for generating comments. This will be pre-selected for you.</p>
+              <select id="default-tone-select">
+                <option value="Select Tone">None (Select manually)</option>
+                <option value="neutral">Neutral</option>
+                <option value="formal">Formal</option>
+                <option value="casual">Casual</option>
+                <option value="supportive">Supportive</option>
+                <option value="disagree">Disagree</option>
+                <option value="hahaha">Hahaha</option>
+                <option value="posh">Posh</option>
+                <option value="witty">Witty</option>
+                <option value="sarcastic">Sarcastic</option>
+                <option value="roast">Roast</option>
+                <option value="GenZ-slang">GenZ Slang</option>
+                <option value="playful">Playful</option>
+                <option value="nerdy">Nerdy</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="channel-topic-input">Channel Topic</label>
+              <p class="form-group-description">Provide a brief description of your channel's topic to help the AI generate more relevant replies.</p>
+              <textarea id="channel-topic-input" placeholder="e.g., My channel is about creating music using Artificial Intelligence..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="custom-tone-input">Add Custom Tone</label>
+              <p class="form-group-description">Create your own tones to use for comment generation.</p>
+              <div class="add-tone-wrapper">
+                  <input type="text" id="custom-tone-input" placeholder="e.g., Enthusiastic, Questioning">
+                  <button id="add-tone-btn">Add Tone</button>
+              </div>
+            </div>
+      
+            <div class="form-group">
+              <label>Your Custom Tones</label>
+              <ul id="custom-tones-list">
+                  <!-- Custom tones will be listed here -->
+              </ul>
+            </div>
+
+            <div class="form-group">
+              <label for="append-message-toggle">Enable Append Message</label>
+              <p class="form-group-description">Automatically add a custom message or links to the end of every generated reply.</p>
+              <div class="billing-toggle" style="justify-content: flex-start;">
+                  <span class="toggle-label monthly active" id="append-disabled-label">Disabled</span>
+                  <label class="switch">
+                      <input type="checkbox" id="append-message-toggle">
+                      <span class="slider round"></span>
+                  </label>
+                  <span class="toggle-label yearly" id="append-enabled-label">Enabled</span>
+              </div>
+            </div>
+            <div class="form-group">
+                <label for="append-message-input">Message to Append</label>
+                <p class="form-group-description">This text will be added below your generated comment. Great for adding a call-to-action or links.</p>
+                <textarea id="append-message-input" placeholder="e.g., Check out my new playlist: [link]"></textarea>
+            </div>
+
+          </div>
+          <div class="settings-card-footer">
+            <button id="save-settings-button">Save Settings</button>
+            <p id="save-status" style="display: none;"></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- footer box -->
+  <div class="footer-box">
+    <div class="footer-box-layer">
+
+      <!-- footer top box -->
+      <div class="footer-top-box">
+
+        <!-- footer logo about -->
+        <div class="footer-logo-about-box">
+
+          <!-- footer logo -->
+          <div class="footer-logo">
+            <img src="/images/ytsgpt-logo.png" alt="YouTube Studio GPT Logo">
+          </div>
+
+          <!-- footer about -->
+          <div class="footer-about">
+            <p> Manage your YouTube Studio flawlessly with the touch of AI. </p>
+          </div>
+        </div>
+
+        <!-- footer top grid box -->
+        <div class="footer-top-grid-box">
+
+          <div class="footer-grid-box">
+            <h3> Product </h3>
+            <ul>
+              <li> <a href="pricing.html"> Pricing </a> </li>
+              <li> <a href="https://youtubestudiogpt.canny.io/" target="_blank"> Roadmap </a> </li>
+            </ul>
+          </div>
+
+          <div class="footer-grid-box">
+            <h3> Legal </h3>
+            <ul>
+              <li> <a href="privacy.html"> Privacy Policy </li>
+              <li> <a href="refund.html"> Refund Policy </li>
+              <li> <a href="terms.html"> Terms and Conditions </a> </li>
+            </ul>
+          </div>
+
+          <div class="footer-grid-box">
+            <h3> Other </h3>
+            <ul>
+              <li> <a href="support.html"> Customer Support </a> </li>
+              <li> <a href="about.html"> About <span> YouTube Studio GPT </span> </a> </li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- footer bottom box -->
+      <div class="footer-bottom-box">
+        <p> &copy; 2025 YouTube Studio GPT via <a href="https://partnerflow.co.za?utm_source=chrome-extension"
+            target="_blank">PartnerFlow</a>. All rights reserved. </p>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

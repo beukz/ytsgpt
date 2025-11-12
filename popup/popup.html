@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <!-- favicon -->
+  <link rel="shortcut icon" href="/images/ytsgpt-logo.png" type="image/x-icon">
+
+  <title>YouTube Studio GPT</title>
+
+  <!-- stylesheets -->
+  <link rel="stylesheet" href="/styles/popup.css" />
+  <link rel="stylesheet" href="/styles/loader.css" />
+
+  <!-- icons -->
+  <link rel='stylesheet'
+    href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+
+</head>
+
+<body>
+  <!-- popup box -->
+  <div class="page-loader" id="pageLoader">
+    <span class="page-loaderp"></span>
+  </div>
+
+  <div class="popup-box">
+    <div class="popup-box-layer">
+      <!-- page loader -->
+
+      <div class="popup-home" id="popupHome">
+        <!-- popup logo box -->
+        <div class="popup-logo-box">
+          <div class="popup-logo">
+            <a href="https://mlkv.xyz">
+              <img src="/images/ytsgpt-logo.png" alt="" />
+            </a>
+          </div>
+
+          <div class="popup-version">
+            <p>v0.11</p>
+          </div>
+        </div>
+
+        <div class="popup-welcome-box">
+          <h2>Welcome to YouTube Studio GPT</h2>
+
+          <p>
+            YouTube Studio GPT helps you reply to your channel's comments more
+            quickly by using AI.
+          </p>
+        </div>
+
+        <!-- Google Sign-In button -->
+        <div class="popup-account-google-box">
+          <button class="google-signin-btn" id="google-signin-btn">
+            <span>Continue w/ </span>
+            <img src="/images/google.png" alt="Google logo" />
+            <!-- <span class="divider">|</span> -->
+          </button>
+        </div>
+      </div>
+
+      <!-- displayed after login -->
+      <div id="user-info" class="popup-user-info">
+        <div class="user-info-personal">
+          <div class="user-personal-box">
+            <img id="user-picture" src="" alt="Profile Picture" />
+            <p id="user-email"></p>
+          </div>
+          <div class="user-dashboard">
+            <a href="#" id="dashboard-link" title="Dashboard">
+              <i class="fi fi-rr-apps"></i>
+            </a>
+            <a href="#" id="logout-link" title="Logout">
+              <img src="/images/icons/logout.png" alt="Logout" class="ph-icon" />
+            </a>
+          </div>
+        </div>
+
+        <div class="popup-user-split"></div>
+
+        <!-- user account status and credits -->
+        <div class="popup-user-acc-credits">
+          <div class="user-acc">
+            <p>
+              Account Type:
+              <span class="popup-acc-type" id="popupUserAccountType"></span>
+              <span class="upgrade-acc-pro">
+                |
+                <a href="https://pay.mlkv.xyz/buy/7c0ba400-32cb-4c57-a33f-2ebe7249f396" target="_blank"
+                  class="popup-acc-type-pro">
+                  Upgrade Now
+                </a>
+                <!-- <a
+                    href="https://pay.mlkv.xyz/buy/ae3c07c3-7462-4a94-a6c0-578ab4978239"
+                    target="_blank"
+                    class="popup-acc-type-pro">
+                    Upgrade Now
+                  </a> -->
+              </span>
+            </p>
+          </div>
+
+          <div class="user-credits">
+            <p>
+              Credits:
+              <span class="popup-user-credits" id="popupUserCredits"></span> |
+              <span class="small-text">New credits get added each month</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- user settings -->
+        <!-- <div class="popup-user-settings-box">
+            <a id="dashboard-link" href="#">Dashboard</a>
+          </div> -->
+      </div>
+
+      <!-- Added for displaying the response -->
+      <div id="response-container" style="margin-top: 10px">
+        <!-- <p id="status-text"></p> -->
+      </div>
+
+      <!-- powered box -->
+      <div class="powered-box">
+        <div class="footer-ext-layer">
+          <div class="ext-version">
+            <p>v0.11</p>
+            <div class="ext-split-line"></div>
+          </div>
+          <p>
+            A product from
+            <a href="https://partnerflow.co.za?utm_source=chrome-extension" target="_blank">PartnerFlow</a>
+          </p>
+        </div>
+
+        <div class="footer-social">
+          <a href="https://t.me/mlkvinc" target="_blank">
+            <img src="/images/telegram.png" alt="">
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script type="module" src="/popup/popup.js"></script>
+  <script src="/popup/links.js"></script>
+  <script src="/popup/checkout.js"></script>
+</body>
+
+</html>

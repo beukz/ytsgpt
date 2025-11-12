@@ -1,0 +1,963 @@
+<ytd-comment-view-model id="comment" class="style-scope ytd-comment-thread-renderer" pinned="" has-author-badge=""
+    style="--ytd-comment-paid-background-color: initial; --ytd-decorated-comment-reply-box-height-offset: 72px;"><!--css-build:shady--><!--css_build_scope:ytd-comment-view-model--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js-->
+    <div id="paid-comment-background" class="style-scope ytd-comment-view-model"></div>
+    <div id="linked-comment-badge" class="style-scope ytd-comment-view-model"></div>
+
+    <div id="body" class="style-scope ytd-comment-view-model">
+
+        <div id="author-thumbnail" class="style-scope ytd-comment-view-model">
+            <button id="author-thumbnail-button" class="style-scope ytd-comment-view-model" aria-label="@offthekirb">
+                <yt-img-shadow fit="" height="40" width="40" class="style-scope ytd-comment-view-model no-transition"
+                    loaded=""
+                    style="background-color: transparent;"><!--css-build:shady--><!--css_build_scope:yt-img-shadow--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_img_shadow.yt.img.shadow.css.js--><img
+                        id="img" draggable="false" class="style-scope yt-img-shadow" alt="" height="40" width="40"
+                        src="https://yt3.ggpht.com/ytc/AIdro_mv3nBrC2hA__rWhGtRZbgTzJItliBefQhNxS38xfMog7s=s88-c-k-c0x00ffffff-no-rj"></yt-img-shadow>
+            </button>
+        </div>
+        <div id="main" class="style-scope ytd-comment-view-model">
+            <div id="header" class="style-scope ytd-comment-view-model">
+                <div id="pinned-comment-badge" class="style-scope ytd-comment-view-model">
+                    <ytd-pinned-comment-badge-renderer
+                        class="style-scope ytd-comment-view-model"><!--css-build:shady--><!--css_build_scope:ytd-pinned-comment-badge-renderer--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js--><yt-icon
+                            size="12"
+                            class="style-scope ytd-pinned-comment-badge-renderer"><!--css-build:shady--><!--css_build_scope:yt-icon--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.core.yt_icon.yt.icon.css.js--><span
+                                class="yt-icon-shape style-scope yt-icon yt-spec-icon-shape">
+                                <div style="width: 100%; height: 100%; display: block; fill: currentcolor;"><svg
+                                        xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"
+                                        focusable="false" aria-hidden="true"
+                                        style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                        <path
+                                            d="M16 11V3h1V2H7v1h1v8l-2 2v2h5v6l1 1 1-1v-6h5v-2l-2-2zm1 3H7v-.59l1.71-1.71.29-.29V3h6v8.41l.29.29L17 13.41V14z">
+                                        </path>
+                                    </svg></div>
+                            </span></yt-icon>
+                        <yt-formatted-string id="label" class="style-scope ytd-pinned-comment-badge-renderer">Pinned by
+                            Off The Kirb Ministries</yt-formatted-string>
+                    </ytd-pinned-comment-badge-renderer></div>
+                <div id="header-author" class="style-scope ytd-comment-view-model">
+
+                    <h3 class="style-scope ytd-comment-view-model">
+                        <a id="author-text" class="yt-simple-endpoint style-scope ytd-comment-view-model" hidden=""
+                            href="/@offthekirb">
+                            <span
+                                class="channel-owner style-scope ytd-comment-view-model style-scope ytd-comment-view-model">
+                                @offthekirb
+                            </span>
+                        </a>
+                    </h3>
+                    <span id="author-comment-badge"
+                        class="style-scope ytd-comment-view-model"><ytd-author-comment-badge-renderer
+                            class="style-scope ytd-comment-view-model" standardize-icon-size="" creator=""
+                            style="--yt-basic-background-color: rgba(136,136,136,1.000); --yt-basic-foreground-title-color: rgba(255,255,255,1.000); --ytd-author-comment-badge-background-color: #888888; --ytd-author-comment-badge-name-color: #ffffff; --ytd-author-comment-badge-icon-color: #ffffff;"><!--css-build:shady--><!--css_build_scope:ytd-author-comment-badge-renderer--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js--><a
+                                id="name" class="yt-simple-endpoint style-scope ytd-author-comment-badge-renderer"
+                                href="/@offthekirb">
+                                <ytd-channel-name id="channel-name"
+                                    class="style-scope ytd-author-comment-badge-renderer"><!--css-build:shady--><!--css_build_scope:ytd-channel-name--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js-->
+                                    <div id="container" class="style-scope ytd-channel-name">
+                                        <div id="text-container" class="style-scope ytd-channel-name">
+                                            <yt-formatted-string id="text" link-inherit-color="" respect-lang-dir=""
+                                                title="@offthekirb" class="style-scope ytd-channel-name"
+                                                ellipsis-truncate="" ellipsis-truncate-styling="" dir="auto"
+                                                style="text-align: left;">@offthekirb</yt-formatted-string>
+                                        </div>
+                                        <tp-yt-paper-tooltip fit-to-visible-bounds=""
+                                            class="style-scope ytd-channel-name" role="tooltip" tabindex="-1"
+                                            aria-label="tooltip"><!--css-build:shady--><!--css_build_scope:tp-yt-paper-tooltip--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,third_party.javascript.youtube_components.tp_yt_paper_tooltip.tp.yt.paper.tooltip.css.js-->
+                                            <div id="tooltip" class="hidden style-scope tp-yt-paper-tooltip"
+                                                style-target="tooltip">
+
+                                                @offthekirb
+
+                                            </div>
+                                        </tp-yt-paper-tooltip>
+                                    </div>
+                                    <ytd-badge-supported-renderer class="style-scope ytd-channel-name" system-icons=""
+                                        enable-refresh-web=""
+                                        hidden=""><!--css-build:shady--><!--css_build_scope:ytd-badge-supported-renderer--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js--><dom-repeat
+                                            id="repeat" as="badge"
+                                            class="style-scope ytd-badge-supported-renderer"><template
+                                                is="dom-repeat"></template></dom-repeat></ytd-badge-supported-renderer>
+                                </ytd-channel-name>
+                            </a>
+                            <yt-icon id="icon" size="12"
+                                class="style-scope ytd-author-comment-badge-renderer"><!--css-build:shady--><!--css_build_scope:yt-icon--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.core.yt_icon.yt.icon.css.js--><span
+                                    class="yt-icon-shape style-scope yt-icon yt-spec-icon-shape">
+                                    <div style="width: 100%; height: 100%; display: block; fill: currentcolor;"><svg
+                                            xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24"
+                                            width="24" focusable="false" aria-hidden="true"
+                                            style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                            <path
+                                                d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zM9.8 17.3l-4.2-4.1L7 11.8l2.8 2.7L17 7.4l1.4 1.4-8.6 8.5z">
+                                            </path>
+                                        </svg></div>
+                                </span></yt-icon>
+                        </ytd-author-comment-badge-renderer></span>
+                    <span id="sponsor-comment-badge" class="style-scope ytd-comment-view-model"></span>
+                    <span dir="auto" id="published-time-text" class="style-scope ytd-comment-view-model">
+                        <a class="yt-simple-endpoint style-scope ytd-comment-view-model"
+                            href="/watch?v=Uqje9gIAclo&amp;lc=UgyQU2Wkv5GK6pLWZEh4AaABAg">
+                            1 day ago
+                        </a>
+                    </span>
+                </div>
+            </div>
+
+            <ytd-expander id="expander" max-number-of-lines="4" class="style-scope ytd-comment-view-model" collapsed=""
+                should-use-number-of-lines=""
+                style="--ytd-expander-max-lines: 4;"><!--css-build:shady--><!--css_build_scope:ytd-expander--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js-->
+                <div id="content" class="style-scope ytd-expander">
+
+                    <yt-pdg-comment-chip-renderer id="paid-comment-chip" slot="content"
+                        class="style-scope ytd-comment-view-model"
+                        hidden=""><!--css-build:shady--><!--css_build_scope:yt-pdg-comment-chip-renderer--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.renderers.pdg.yt_pdg_comment_chip_renderer.yt.pdg.comment.chip.renderer.css.js-->
+                        <div id="comment-chip-container" class="style-scope yt-pdg-comment-chip-renderer"><yt-icon
+                                class="style-scope yt-pdg-comment-chip-renderer"><!--css-build:shady--><!--css_build_scope:yt-icon--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.core.yt_icon.yt.icon.css.js--></yt-icon><span
+                                id="comment-chip-price" class="style-scope yt-pdg-comment-chip-renderer"> </span></div>
+                    </yt-pdg-comment-chip-renderer>
+                    <yt-attributed-string id="content-text" slot="content" user-input=""
+                        class="style-scope ytd-comment-view-model">
+                        <span
+                            class="yt-core-attributed-string yt-core-attributed-string--white-space-pre-wrap" dir="auto"
+                            role="text">If this message helped you, please click the LIKE button <span
+                                class="yt-core-attributed-string--inline-block-mod"
+                                style="margin-left: 2px; margin-right: 2px;"><img alt="👍"
+                                    class="yt-core-image yt-core-attributed-string__image-element yt-core-attributed-string__image-element--image-alignment-vertical-center yt-core-image--content-mode-scale-to-fill yt-core-image--loaded"
+                                    style="height: 16px; width: 16px;"
+                                    src="https://www.youtube.com/s/gaming/emoji/7ff574f2/emoji_u1f44d.png"></span> (it
+                            will help us reach someone else with the message) God bless you -
+                            Joe</span>
+                        </yt-attributed-string>
+                </div>
+
+                <tp-yt-paper-button id="less" aria-expanded="true" noink="" class="style-scope ytd-expander" hidden=""
+                    style-target="host" role="button" tabindex="0" animated="" elevation="0"
+                    aria-disabled="false"><!--css-build:shady--><!--css_build_scope:tp-yt-paper-button--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,third_party.javascript.youtube_components.tp_yt_paper_button.tp.yt.paper.button.css.js-->
+                    <span class="less-button style-scope ytd-comment-view-model" slot="less-button">Show less</span>
+
+                </tp-yt-paper-button>
+                <tp-yt-paper-button id="more" aria-expanded="false" noink="" class="style-scope ytd-expander" hidden=""
+                    style-target="host" role="button" tabindex="0" animated="" elevation="0"
+                    aria-disabled="false"><!--css-build:shady--><!--css_build_scope:tp-yt-paper-button--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,third_party.javascript.youtube_components.tp_yt_paper_button.tp.yt.paper.button.css.js-->
+                    <span class="more-button style-scope ytd-comment-view-model" slot="more-button">Read more</span>
+
+                </tp-yt-paper-button>
+
+            </ytd-expander>
+            <yt-attributed-string id="error-text" class="style-scope ytd-comment-view-model"
+                hidden=""></yt-attributed-string>
+            <ytd-tri-state-button-view-model class="translate-button style-scope ytd-comment-view-model" hidden=""
+                state="untoggled"><!--css-build:shady--><!--css_build_scope:ytd-tri-state-button-view-model--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js--><tp-yt-paper-button
+                    noink="" class="style-scope ytd-tri-state-button-view-model" style-target="host" role="button"
+                    tabindex="0" animated="" elevation="0"
+                    aria-disabled="false"><!--css-build:shady--><!--css_build_scope:tp-yt-paper-button--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,third_party.javascript.youtube_components.tp_yt_paper_button.tp.yt.paper.button.css.js-->
+
+
+                </tp-yt-paper-button></ytd-tri-state-button-view-model>
+            <ytd-comment-engagement-bar id="action-buttons"
+                class="style-scope ytd-comment-view-model"><!--css-build:shady--><!--css_build_scope:ytd-comment-engagement-bar--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js-->
+                <div id="toolbar" class="style-scope ytd-comment-engagement-bar">
+
+                    <ytd-toggle-button-renderer id="like-button" button-tooltip-position="bottom" icon-size="16"
+                        class="style-scope ytd-comment-engagement-bar"
+                        button-renderer="true"><!--css-build:shady--><yt-button-shape><button
+                                class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--mono yt-spec-button-shape-next--size-s yt-spec-button-shape-next--icon-button yt-spec-button-shape-next--override-small-size-icon"
+                                aria-disabled="false" aria-pressed="false"
+                                aria-label="Like this comment along with 372 other people" title="" style="">
+                                <div class="yt-spec-button-shape-next__icon" aria-hidden="true"><yt-icon
+                                        style="width: 24px; height: 24px;"><!--css-build:shady--><!--css_build_scope:yt-icon--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.core.yt_icon.yt.icon.css.js--><span
+                                            class="yt-icon-shape style-scope yt-icon yt-spec-icon-shape">
+                                            <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24"
+                                                    width="24" focusable="false" aria-hidden="true"
+                                                    style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                                    <path
+                                                        d="M18.77,11h-4.23l1.52-4.94C16.38,5.03,15.54,4,14.38,4c-0.58,0-1.14,0.24-1.52,0.65L7,11H3v10h4h1h9.43 c1.06,0,1.98-0.67,2.19-1.61l1.34-6C21.23,12.15,20.18,11,18.77,11z M7,20H4v-8h3V20z M19.98,13.17l-1.34,6 C18.54,19.65,18.03,20,17.43,20H8v-8.61l5.6-6.06C13.79,5.12,14.08,5,14.38,5c0.26,0,0.5,0.11,0.63,0.3 c0.07,0.1,0.15,0.26,0.09,0.47l-1.52,4.94L13.18,12h1.35h4.23c0.41,0,0.8,0.17,1.03,0.46C19.92,12.61,20.05,12.86,19.98,13.17z">
+                                                    </path>
+                                                </svg></div>
+                                        </span></yt-icon></div><yt-touch-feedback-shape style="border-radius: inherit;">
+                                    <div class="yt-spec-touch-feedback-shape yt-spec-touch-feedback-shape--touch-response"
+                                        aria-hidden="true">
+                                        <div class="yt-spec-touch-feedback-shape__stroke" style=""></div>
+                                        <div class="yt-spec-touch-feedback-shape__fill" style=""></div>
+                                    </div>
+                                </yt-touch-feedback-shape>
+                            </button></yt-button-shape>
+                        <tp-yt-paper-tooltip fit-to-visible-bounds="" offset="8" role="tooltip" tabindex="-1"
+                            aria-label="tooltip"><!--css-build:shady--><!--css_build_scope:tp-yt-paper-tooltip--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,third_party.javascript.youtube_components.tp_yt_paper_tooltip.tp.yt.paper.tooltip.css.js-->
+                            <div id="tooltip" class="hidden style-scope tp-yt-paper-tooltip" style-target="tooltip">
+                                Like
+                            </div>
+                        </tp-yt-paper-tooltip>
+                    </ytd-toggle-button-renderer>
+                    <span id="vote-count-middle" class="style-scope ytd-comment-engagement-bar">
+                        372
+                    </span>
+
+                    <ytd-toggle-button-renderer id="dislike-button" button-tooltip-position="bottom" icon-size="16"
+                        class="style-scope ytd-comment-engagement-bar"
+                        button-renderer="true"><!--css-build:shady--><yt-button-shape><button
+                                class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--mono yt-spec-button-shape-next--size-s yt-spec-button-shape-next--icon-button yt-spec-button-shape-next--override-small-size-icon"
+                                aria-disabled="false" aria-pressed="false" aria-label="Dislike this comment" title=""
+                                style="">
+                                <div class="yt-spec-button-shape-next__icon" aria-hidden="true"><yt-icon
+                                        style="width: 24px; height: 24px;"><!--css-build:shady--><!--css_build_scope:yt-icon--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.core.yt_icon.yt.icon.css.js--><span
+                                            class="yt-icon-shape style-scope yt-icon yt-spec-icon-shape">
+                                            <div style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24"
+                                                    width="24" focusable="false" aria-hidden="true"
+                                                    style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                                    <path
+                                                        d="M17,4h-1H6.57C5.5,4,4.59,4.67,4.38,5.61l-1.34,6C2.77,12.85,3.82,14,5.23,14h4.23l-1.52,4.94C7.62,19.97,8.46,21,9.62,21 c0.58,0,1.14-0.24,1.52-0.65L17,14h4V4H17z M10.4,19.67C10.21,19.88,9.92,20,9.62,20c-0.26,0-0.5-0.11-0.63-0.3 c-0.07-0.1-0.15-0.26-0.09-0.47l1.52-4.94l0.4-1.29H9.46H5.23c-0.41,0-0.8-0.17-1.03-0.46c-0.12-0.15-0.25-0.4-0.18-0.72l1.34-6 C5.46,5.35,5.97,5,6.57,5H16v8.61L10.4,19.67z M20,13h-3V5h3V13z">
+                                                    </path>
+                                                </svg></div>
+                                        </span></yt-icon></div><yt-touch-feedback-shape style="border-radius: inherit;">
+                                    <div class="yt-spec-touch-feedback-shape yt-spec-touch-feedback-shape--touch-response"
+                                        aria-hidden="true">
+                                        <div class="yt-spec-touch-feedback-shape__stroke" style=""></div>
+                                        <div class="yt-spec-touch-feedback-shape__fill" style=""></div>
+                                    </div>
+                                </yt-touch-feedback-shape>
+                            </button></yt-button-shape>
+                        <tp-yt-paper-tooltip fit-to-visible-bounds="" offset="8" role="tooltip" tabindex="-1"
+                            aria-label="tooltip"><!--css-build:shady--><!--css_build_scope:tp-yt-paper-tooltip--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,third_party.javascript.youtube_components.tp_yt_paper_tooltip.tp.yt.paper.tooltip.css.js-->
+                            <div id="tooltip" class="hidden style-scope tp-yt-paper-tooltip" style-target="tooltip">
+                                Dislike
+                            </div>
+                        </tp-yt-paper-tooltip>
+                    </ytd-toggle-button-renderer>
+
+                    <div id="creator-heart" class="style-scope ytd-comment-engagement-bar"></div>
+
+                    <ytd-button-renderer id="reply-button-end" force-icon-button="true"
+                        class="style-scope ytd-comment-engagement-bar" button-renderer=""
+                        button-next=""><!--css-build:shady--><yt-button-shape><button
+                                class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--mono yt-spec-button-shape-next--size-s"
+                                aria-label="Reply" title="" style="">
+                                <div class="yt-spec-button-shape-next__button-text-content"><span
+                                        class="yt-core-attributed-string yt-core-attributed-string--white-space-no-wrap"
+                                        role="text">Reply</span></div><yt-touch-feedback-shape
+                                    style="border-radius: inherit;">
+                                    <div class="yt-spec-touch-feedback-shape yt-spec-touch-feedback-shape--touch-response"
+                                        aria-hidden="true">
+                                        <div class="yt-spec-touch-feedback-shape__stroke" style=""></div>
+                                        <div class="yt-spec-touch-feedback-shape__fill" style=""></div>
+                                    </div>
+                                </yt-touch-feedback-shape>
+                            </button></yt-button-shape><tp-yt-paper-tooltip offset="8"
+                            disable-upgrade=""></tp-yt-paper-tooltip></ytd-button-renderer>
+                </div>
+
+                <div id="reply-dialog" class="style-scope ytd-comment-engagement-bar"><ytd-comment-reply-dialog-renderer
+                        id="replybox"
+                        class="style-scope ytd-comment-engagement-bar"><!--css-build:shady--><!--css_build_scope:ytd-comment-reply-dialog-renderer--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js--><ytd-commentbox
+                            id="commentbox" is-reply="" class="style-scope ytd-comment-reply-dialog-renderer"
+                            added-attachment="none" prefilled-attachment_="none" modern=""
+                            enable-refresh-web=""><!--css-build:shady--><!--css_build_scope:ytd-commentbox--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js-->
+                            <div id="identity-chip" class="style-scope ytd-commentbox"></div>
+                            <div id="thumbnail-input-row" class="style-scope ytd-commentbox">
+                                <yt-img-shadow id="author-thumbnail" class="style-scope ytd-commentbox no-transition"
+                                    style="background-color: transparent;"
+                                    loaded=""><!--css-build:shady--><!--css_build_scope:yt-img-shadow--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_img_shadow.yt.img.shadow.css.js--><img
+                                        id="img" draggable="false" class="style-scope yt-img-shadow" alt="BeukzDev"
+                                        width="24" height="24"
+                                        src="https://yt3.ggpht.com/ytc/AIdro_kOb7QQDcZFwpMIdd9bTrXMar1ggASA-XZvBJ1dsoZ7ILZXnMflzIOdl1i8MGKOzZIN6g=s48-c-k-c0x00ffffff-no-rj"></yt-img-shadow>
+                                <div id="main" class="style-scope ytd-commentbox">
+                                    <div id="divider-line" class="style-scope ytd-commentbox"></div>
+
+                                    <div id="creation-box"
+                                        class="not-focused style-scope ytd-commentbox style-scope ytd-commentbox">
+                                        <tp-yt-paper-input-container id="input-container" no-label-float=""
+                                            use-v2-underline="" class="style-scope ytd-commentbox"
+                                            style-target="host"><!--css-build:shady--><!--css_build_scope:tp-yt-paper-input-container--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,third_party.javascript.youtube_components.tp_yt_paper_input_container.tp.yt.paper.input.container.css.js-->
+                                            <div class="floated-label-placeholder style-scope tp-yt-paper-input-container"
+                                                aria-hidden="true" hidden="">
+                                                &nbsp;
+                                            </div>
+
+                                            <div class="input-wrapper style-scope tp-yt-paper-input-container">
+                                                <span class="prefix style-scope tp-yt-paper-input-container"></span>
+
+                                                <div id="labelAndInputContainer"
+                                                    class="input-content style-scope tp-yt-paper-input-container style-scope tp-yt-paper-input-container">
+
+                                                    <div slot="after-input"
+                                                        class="paper-input-input style-scope ytd-commentbox">
+                                                        <ytd-emoji-input id="emoji"
+                                                            class="style-scope ytd-commentbox"><grammarly-extension
+                                                                data-grammarly-shadow-root="true" class="dnXmp"
+                                                                style="position: absolute; top: 0px; left: 0px; pointer-events: none;"></grammarly-extension><grammarly-extension
+                                                                data-grammarly-shadow-root="true" class="dnXmp"
+                                                                style="position: absolute; top: 0px; left: 0px; pointer-events: none;"></grammarly-extension><!--css-build:shady--><!--css_build_scope:ytd-emoji-input--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js--><yt-user-mention-autosuggest-input
+                                                                slot="input"
+                                                                class="style-scope ytd-commentbox"><!--css-build:shady--><!--css_build_scope:yt-user-mention-autosuggest-input--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.renderers.social.yt_user_mention_autosuggest_input.yt.user.mention.autosuggest.input.css.js--><yt-formatted-string
+                                                                    id="contenteditable-textarea" slot="input"
+                                                                    enable-content-editable="true" maxlength="10000"
+                                                                    plaintext-only="true" required="true" split-lines=""
+                                                                    class="style-scope ytd-commentbox"
+                                                                    is-empty=""><!--css-build:shady--><!--css_build_scope:yt-formatted-string--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_formatted_string.yt.formatted.string.css.js--><yt-attributed-string
+                                                                        class="style-scope yt-formatted-string"
+                                                                        hidden=""></yt-attributed-string>
+                                                                    <div id="contenteditable-root"
+                                                                        contenteditable="true" dir="auto"
+                                                                        class="style-scope yt-formatted-string"
+                                                                        aria-label="Add a reply..." spellcheck="false">
+                                                                    </div>
+                                                                </yt-formatted-string>
+                                                                <tp-yt-iron-dropdown id="iron-dropdown"
+                                                                    horizontal-align="auto" no-auto-focus=""
+                                                                    no-overlap="true"
+                                                                    class="style-scope yt-user-mention-autosuggest-input"
+                                                                    vertical-align="top" aria-disabled="false"
+                                                                    aria-hidden="true"
+                                                                    style="outline: none; display: none;"><!--css-build:shady--><!--css_build_scope:tp-yt-iron-dropdown--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,third_party.javascript.youtube_components.tp_yt_iron_dropdown.tp.yt.iron.dropdown.css.js-->
+                                                                    <div id="contentWrapper"
+                                                                        class="style-scope tp-yt-iron-dropdown">
+                                                                        <yt-user-mention-suggestions-dropdown
+                                                                            id="dropdown"
+                                                                            class="dropdown-content style-scope yt-user-mention-autosuggest-input"
+                                                                            slot="dropdown-content"
+                                                                            role="listbox"><!--css-build:shady--><!--css_build_scope:yt-user-mention-suggestions-dropdown--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.renderers.social.yt_user_mention_suggestions_dropdown.yt.user.mention.suggestions.dropdown.css.js-->
+                                                                            <dom-repeat index-as="index"
+                                                                                notify-dom-change=""
+                                                                                class="style-scope yt-user-mention-suggestions-dropdown"><template
+                                                                                    is="dom-repeat"></template></dom-repeat>
+                                                                        </yt-user-mention-suggestions-dropdown>
+                                                                    </div>
+                                                                </tp-yt-iron-dropdown>
+                                                            </yt-user-mention-autosuggest-input>
+                                                            <tp-yt-iron-dropdown id="dropdown" allow-outside-scroll=""
+                                                                no-auto-focus="" vertical-align="bottom"
+                                                                class="style-scope ytd-emoji-input"
+                                                                horizontal-align="left" aria-disabled="false"
+                                                                aria-hidden="true"
+                                                                style="outline: none; display: none;"><!--css-build:shady--><!--css_build_scope:tp-yt-iron-dropdown--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,third_party.javascript.youtube_components.tp_yt_iron_dropdown.tp.yt.iron.dropdown.css.js-->
+                                                                <div id="contentWrapper"
+                                                                    class="style-scope tp-yt-iron-dropdown">
+                                                                    <div id="dropdown-content"
+                                                                        class="dropdown-content style-scope ytd-emoji-input"
+                                                                        slot="dropdown-content">
+                                                                    </div>
+                                                                </div>
+                                                            </tp-yt-iron-dropdown>
+                                                        </ytd-emoji-input>
+                                                        <div id="external-links-banner"
+                                                            class="style-scope ytd-commentbox" hidden="">
+                                                            <yt-formatted-string class="style-scope ytd-commentbox"
+                                                                is-empty="function(){var e=_.Ed.apply(0,arguments);a.loggingStatus.currentExternalCall=b;a.loggingStatus.bypassProxyController=!0;var g,k=((g=a.is)!=null?g:a.tagName).toLowerCase();cr(k,b,&quot;PROPERTY_ACCESS_CALL_EXTERNAL&quot;);var m;g=(m=c!=null?c:d[b])==null?void 0:m.call.apply(m,[d].concat(_.ze(e)));a.loggingStatus.currentExternalCall=void 0;a.loggingStatus.bypassProxyController=!1;return g}"><!--css-build:shady--><!--css_build_scope:yt-formatted-string--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_formatted_string.yt.formatted.string.css.js--><yt-attributed-string
+                                                                    class="style-scope yt-formatted-string"></yt-attributed-string></yt-formatted-string>
+                                                            <ytd-button-renderer id="verification-button"
+                                                                class="style-scope ytd-commentbox" button-renderer=""
+                                                                button-next=""><!--css-build:shady--><yt-button-shape></yt-button-shape><tp-yt-paper-tooltip
+                                                                    offset="8" disable-upgrade="">
+                                                                </tp-yt-paper-tooltip></ytd-button-renderer>
+                                                        </div>
+                                                    </div><ytd-backstage-dismissable-attachment
+                                                        id="dismissable-attachment" slot="after-input"
+                                                        class="style-scope ytd-commentbox"
+                                                        hidden=""><!--css-build:shady--><!--css_build_scope:ytd-backstage-dismissable-attachment--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js-->
+                                                        <div id="attachment-preview-container"
+                                                            class="style-scope ytd-backstage-dismissable-attachment">
+                                                            <div id="attachment-preview"
+                                                                class="style-scope ytd-backstage-dismissable-attachment">
+                                                            </div>
+                                                            <div id="dismiss-button"
+                                                                class="style-scope ytd-backstage-dismissable-attachment">
+                                                            </div>
+                                                        </div>
+                                                    </ytd-backstage-dismissable-attachment>
+                                                    <div id="attachment-preview" slot="after-input"
+                                                        class="style-scope ytd-commentbox"></div>
+                                                    <div id="image-select"
+                                                        class="paper-input-input style-scope ytd-commentbox"
+                                                        slot="after-input" hidden=""></div>
+                                                    <ytd-backstage-video-link-attachment id="video-link-attachment"
+                                                        slot="after-input" class="style-scope ytd-commentbox"
+                                                        hidden=""><!--css-build:shady--><!--css_build_scope:ytd-backstage-video-link-attachment--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js-->
+                                                        <div id="video-preview"
+                                                            class="style-scope ytd-backstage-video-link-attachment">
+                                                        </div>
+                                                        <div id="cancel-button"
+                                                            class="style-scope ytd-backstage-video-link-attachment">
+                                                        </div>
+                                                    </ytd-backstage-video-link-attachment>
+                                                </div>
+
+                                                <span class="suffix style-scope tp-yt-paper-input-container"></span>
+                                            </div>
+
+                                            <div class="underline style-scope tp-yt-paper-input-container style-scope tp-yt-paper-input-container"
+                                                style="height: 0px;">
+                                                <div class="unfocused-line style-scope tp-yt-paper-input-container">
+                                                </div>
+                                                <div class="focused-line style-scope tp-yt-paper-input-container"></div>
+                                            </div>
+
+                                            <div
+                                                class="add-on-content style-scope tp-yt-paper-input-container style-scope tp-yt-paper-input-container">
+
+                                            </div>
+                                        </tp-yt-paper-input-container>
+                                    </div>
+                                    <ytd-poll-attachment id="poll-attachment" class="style-scope ytd-commentbox"
+                                        hidden=""><!--css-build:shady--><!--css_build_scope:ytd-poll-attachment--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js-->
+                                        <div id="poll-options" class="style-scope ytd-poll-attachment">
+                                            <dom-repeat id="repeat" class="style-scope ytd-poll-attachment"><template
+                                                    is="dom-repeat"></template></dom-repeat>
+                                        </div>
+                                        <div id="add-option" class="style-scope ytd-poll-attachment"></div>
+                                    </ytd-poll-attachment>
+                                    <ytd-backstage-image-poll-editor-renderer id="image-poll-attachment"
+                                        class="style-scope ytd-commentbox"
+                                        hidden=""><!--css-build:shady--><!--css_build_scope:ytd-backstage-image-poll-editor-renderer--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js-->
+                                        <div class="style-scope ytd-backstage-image-poll-editor-renderer">
+                                            <dom-repeat
+                                                class="style-scope ytd-backstage-image-poll-editor-renderer"><template
+                                                    is="dom-repeat"></template></dom-repeat>
+                                            <div
+                                                class="button-container style-scope ytd-backstage-image-poll-editor-renderer">
+                                                <yt-button-renderer
+                                                    class="add-option style-scope ytd-backstage-image-poll-editor-renderer"
+                                                    button-renderer=""
+                                                    button-next=""><!--css-build:shady--><yt-button-shape></yt-button-shape><tp-yt-paper-tooltip
+                                                        offset="8" disable-upgrade="">
+                                                    </tp-yt-paper-tooltip></yt-button-renderer>
+                                                <yt-button-renderer
+                                                    class="reposition-images style-scope ytd-backstage-image-poll-editor-renderer"
+                                                    button-renderer=""
+                                                    button-next=""><!--css-build:shady--><yt-button-shape></yt-button-shape><tp-yt-paper-tooltip
+                                                        offset="8" disable-upgrade="">
+                                                    </tp-yt-paper-tooltip></yt-button-renderer>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="image-reposition-container style-scope ytd-backstage-image-poll-editor-renderer"
+                                            hidden="">
+                                            <ytd-backstage-multi-image-reposition-renderer
+                                                class="style-scope ytd-backstage-image-poll-editor-renderer"><!--css-build:shady--><!--css_build_scope:ytd-backstage-multi-image-reposition-renderer--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js-->
+                                                <div
+                                                    class="image-reposition-container style-scope ytd-backstage-multi-image-reposition-renderer">
+                                                    <div
+                                                        class="thumbnail-images-container style-scope ytd-backstage-multi-image-reposition-renderer">
+                                                        <ps-dom-repeat
+                                                            class="style-scope ytd-backstage-multi-image-reposition-renderer"><template
+                                                                is="dom-repeat"></template></ps-dom-repeat>
+                                                    </div>
+                                                    <div
+                                                        class="image-reposition style-scope ytd-backstage-multi-image-reposition-renderer">
+                                                        <ytd-backstage-image-preview-renderer edit-only-mode=""
+                                                            class="style-scope ytd-backstage-multi-image-reposition-renderer"><!--css-build:shady--><!--css_build_scope:ytd-backstage-image-preview-renderer--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js-->
+                                                            <div id="container"
+                                                                class="edit style-scope ytd-backstage-image-preview-renderer style-scope ytd-backstage-image-preview-renderer">
+                                                                <div id="preview-container"
+                                                                    class="style-scope ytd-backstage-image-preview-renderer"
+                                                                    hidden="">
+                                                                    <div id="preview-clipper"
+                                                                        class="style-scope ytd-backstage-image-preview-renderer">
+                                                                        <img id="image-in-preview-clipper"
+                                                                            class=" style-scope ytd-backstage-image-preview-renderer style-scope ytd-backstage-image-preview-renderer"
+                                                                            style="transform:translateX(0px) translateY(0px);">
+                                                                    </div>
+                                                                    <div
+                                                                        class="buttons-container style-scope ytd-backstage-image-preview-renderer">
+                                                                        <yt-button-renderer id="delete-button"
+                                                                            class="style-scope ytd-backstage-image-preview-renderer"
+                                                                            button-renderer=""
+                                                                            button-next=""><!--css-build:shady--><yt-button-shape></yt-button-shape><tp-yt-paper-tooltip
+                                                                                offset="8" disable-upgrade="">
+                                                                            </tp-yt-paper-tooltip></yt-button-renderer>
+                                                                        <yt-button-renderer id="edit-button"
+                                                                            class="style-scope ytd-backstage-image-preview-renderer"
+                                                                            button-renderer=""
+                                                                            button-next=""><!--css-build:shady--><yt-button-shape></yt-button-shape><tp-yt-paper-tooltip
+                                                                                offset="8" disable-upgrade="">
+                                                                            </tp-yt-paper-tooltip></yt-button-renderer>
+                                                                    </div>
+                                                                </div>
+                                                                <div id="edit-container"
+                                                                    class="style-scope ytd-backstage-image-preview-renderer">
+                                                                    <div id="picker-container"
+                                                                        class="style-scope ytd-backstage-image-preview-renderer">
+                                                                        <img id="image-in-picker-background"
+                                                                            class=" style-scope ytd-backstage-image-preview-renderer style-scope ytd-backstage-image-preview-renderer"
+                                                                            style="transform:translateX(0px) translateY(0px);">
+                                                                        <div id="overlay"
+                                                                            class="style-scope ytd-backstage-image-preview-renderer">
+                                                                        </div>
+                                                                        <div id="picker"
+                                                                            class="style-scope ytd-backstage-image-preview-renderer"
+                                                                            style="width:undefinedpx;height:undefinedpx;transform:translateX(0px) translateY(0px);">
+                                                                            <img id="image-in-picker" alt=""
+                                                                                class=" style-scope ytd-backstage-image-preview-renderer style-scope ytd-backstage-image-preview-renderer"
+                                                                                style="transform:translateX(0px) translateY(0px);">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="buttons-container style-scope ytd-backstage-image-preview-renderer">
+                                                                        <yt-button-renderer id="cancel-button"
+                                                                            class="style-scope ytd-backstage-image-preview-renderer"
+                                                                            button-renderer=""
+                                                                            button-next=""><!--css-build:shady--><yt-button-shape></yt-button-shape><tp-yt-paper-tooltip
+                                                                                offset="8" disable-upgrade="">
+                                                                            </tp-yt-paper-tooltip></yt-button-renderer>
+                                                                        <yt-button-renderer id="save-button"
+                                                                            class="style-scope ytd-backstage-image-preview-renderer"
+                                                                            button-renderer=""
+                                                                            button-next=""><!--css-build:shady--><yt-button-shape></yt-button-shape><tp-yt-paper-tooltip
+                                                                                offset="8" disable-upgrade="">
+                                                                            </tp-yt-paper-tooltip></yt-button-renderer>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <iron-a11y-keys keys="up down left right"
+                                                                class="style-scope ytd-backstage-image-preview-renderer">
+                                                            </iron-a11y-keys>
+                                                        </ytd-backstage-image-preview-renderer>
+                                                    </div>
+                                                </div>
+                                            </ytd-backstage-multi-image-reposition-renderer>
+                                        </div>
+                                    </ytd-backstage-image-poll-editor-renderer>
+                                    <ytd-backstage-quiz-editor-renderer id="quiz-attachment"
+                                        class="style-scope ytd-commentbox"
+                                        hidden=""><!--css-build:shady--><!--css_build_scope:ytd-backstage-quiz-editor-renderer--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js-->
+                                        <div class="style-scope ytd-backstage-quiz-editor-renderer">
+                                            <dom-repeat index="quizAnswerIndex"
+                                                class="style-scope ytd-backstage-quiz-editor-renderer"><template
+                                                    is="dom-repeat"></template></dom-repeat>
+                                        </div>
+                                        <div class="button-container style-scope ytd-backstage-quiz-editor-renderer">
+                                            <yt-button-renderer
+                                                class="add-answer style-scope ytd-backstage-quiz-editor-renderer"
+                                                hidden="" button-renderer=""
+                                                button-next=""><!--css-build:shady--><yt-button-shape></yt-button-shape><tp-yt-paper-tooltip
+                                                    offset="8" disable-upgrade="">
+                                                </tp-yt-paper-tooltip></yt-button-renderer>
+                                        </div>
+                                    </ytd-backstage-quiz-editor-renderer>
+
+                                    <div id="poll-preview-edit-dialog" class="style-scope ytd-commentbox" hidden="">
+                                        <yt-formatted-string class="style-scope ytd-commentbox"
+                                            is-empty="function(){var e=_.Ed.apply(0,arguments);a.loggingStatus.currentExternalCall=b;a.loggingStatus.bypassProxyController=!0;var g,k=((g=a.is)!=null?g:a.tagName).toLowerCase();cr(k,b,&quot;PROPERTY_ACCESS_CALL_EXTERNAL&quot;);var m;g=(m=c!=null?c:d[b])==null?void 0:m.call.apply(m,[d].concat(_.ze(e)));a.loggingStatus.currentExternalCall=void 0;a.loggingStatus.bypassProxyController=!1;return g}"><!--css-build:shady--><!--css_build_scope:yt-formatted-string--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_formatted_string.yt.formatted.string.css.js--><yt-attributed-string
+                                                class="style-scope yt-formatted-string"></yt-attributed-string></yt-formatted-string>
+                                        <div id="poll-preview" class="style-scope ytd-commentbox"></div>
+                                    </div>
+                                    <div id="footer" class="style-scope ytd-commentbox">
+                                        <span id="emoji-button" class="style-scope ytd-commentbox"><ytd-button-renderer
+                                                class="style-scope ytd-commentbox" button-renderer=""
+                                                button-next=""><!--css-build:shady--><yt-button-shape><button
+                                                        class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--mono yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-only-default"
+                                                        aria-label="Show emoji picker" title="" style="">
+                                                        <div class="yt-spec-button-shape-next__icon" aria-hidden="true">
+                                                            <yt-icon
+                                                                style="width: 24px; height: 24px;"><!--css-build:shady--><!--css_build_scope:yt-icon--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.core.yt_icon.yt.icon.css.js--><span
+                                                                    class="yt-icon-shape style-scope yt-icon yt-spec-icon-shape">
+                                                                    <div
+                                                                        style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            enable-background="new 0 0 24 24"
+                                                                            height="24" viewBox="0 0 24 24" width="24"
+                                                                            focusable="false" aria-hidden="true"
+                                                                            style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                                                            <path
+                                                                                d="M15.83 15c-.52 1.38-2.19 2-3.79 2-1.59 0-3.28-.62-3.85-2h7.64m.69-1H7.49c-.27 0-.49.22-.46.47C7.34 16.83 9.7 18 12.05 18c2.35 0 4.69-1.18 4.93-3.54.03-.25-.2-.46-.46-.46zM12 3c4.96 0 9 4.04 9 9s-4.04 9-9 9-9-4.04-9-9 4.04-9 9-9m0-1C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM6.94 9.73C7.19 9.25 7.72 9 8.5 9c.75 0 1.28.25 1.57.75.14.24.45.32.68.18.24-.14.32-.44.18-.68C10.6 8.68 9.91 8 8.5 8c-1.48 0-2.15.69-2.44 1.27-.13.25-.03.55.21.67.07.04.15.06.23.06.18 0 .36-.1.44-.27zm7 0c.25-.48.78-.73 1.56-.73.75 0 1.28.25 1.57.75.14.24.45.32.68.18.24-.14.32-.44.18-.68C17.6 8.68 16.91 8 15.5 8c-1.48 0-2.15.69-2.44 1.27-.13.25-.03.55.21.67.07.04.15.06.23.06.18 0 .36-.1.44-.27z">
+                                                                            </path>
+                                                                        </svg></div>
+                                                                </span></yt-icon></div><yt-touch-feedback-shape
+                                                            style="border-radius: inherit;">
+                                                            <div class="yt-spec-touch-feedback-shape yt-spec-touch-feedback-shape--touch-response"
+                                                                aria-hidden="true">
+                                                                <div class="yt-spec-touch-feedback-shape__stroke"
+                                                                    style=""></div>
+                                                                <div class="yt-spec-touch-feedback-shape__fill"
+                                                                    style=""></div>
+                                                            </div>
+                                                        </yt-touch-feedback-shape>
+                                                    </button></yt-button-shape><tp-yt-paper-tooltip offset="8"
+                                                    disable-upgrade=""></tp-yt-paper-tooltip></ytd-button-renderer></span>
+                                        <div id="attachments" class="style-scope ytd-commentbox" hidden="">
+
+                                            <ytd-button-renderer class="style-scope ytd-commentbox" id="image-button"
+                                                button-renderer=""
+                                                button-next=""><!--css-build:shady--><yt-button-shape></yt-button-shape><tp-yt-paper-tooltip
+                                                    offset="8" disable-upgrade="">
+                                                </tp-yt-paper-tooltip></ytd-button-renderer>
+
+                                            <ytd-button-renderer class="style-scope ytd-commentbox"
+                                                id="image-poll-button" button-renderer=""
+                                                button-next=""><!--css-build:shady--><yt-button-shape></yt-button-shape><tp-yt-paper-tooltip
+                                                    offset="8" disable-upgrade="">
+                                                </tp-yt-paper-tooltip></ytd-button-renderer>
+
+                                            <ytd-button-renderer class="style-scope ytd-commentbox" id="poll-button"
+                                                button-renderer=""
+                                                button-next=""><!--css-build:shady--><yt-button-shape></yt-button-shape><tp-yt-paper-tooltip
+                                                    offset="8" disable-upgrade="">
+                                                </tp-yt-paper-tooltip></ytd-button-renderer>
+
+                                            <ytd-button-renderer class="style-scope ytd-commentbox" id="quiz-button"
+                                                button-renderer=""
+                                                button-next=""><!--css-build:shady--><yt-button-shape></yt-button-shape><tp-yt-paper-tooltip
+                                                    offset="8" disable-upgrade="">
+                                                </tp-yt-paper-tooltip></ytd-button-renderer>
+
+                                            <ytd-button-renderer class="style-scope ytd-commentbox"
+                                                id="video-link-button" button-renderer=""
+                                                button-next=""><!--css-build:shady--><yt-button-shape></yt-button-shape><tp-yt-paper-tooltip
+                                                    offset="8" disable-upgrade="">
+                                                </tp-yt-paper-tooltip></ytd-button-renderer>
+                                            <dom-repeat as="buttonId" class="style-scope ytd-commentbox"><template
+                                                    is="dom-repeat"></template></dom-repeat>
+                                        </div>
+                                        <div id="inline-scheduling-panel" class="style-scope ytd-commentbox"></div>
+                                        <div id="footer-text" class="style-scope ytd-commentbox">
+                                            <yt-formatted-string id="footer-message"
+                                                class="footer-alert-message style-scope ytd-commentbox style-scope ytd-commentbox"
+                                                hidden="" is-empty=""></yt-formatted-string>
+                                            <yt-formatted-string id="zero-step-footer-text"
+                                                class="style-scope ytd-commentbox"
+                                                is-empty="function(){var e=_.Ed.apply(0,arguments);a.loggingStatus.currentExternalCall=b;a.loggingStatus.bypassProxyController=!0;var g,k=((g=a.is)!=null?g:a.tagName).toLowerCase();cr(k,b,&quot;PROPERTY_ACCESS_CALL_EXTERNAL&quot;);var m;g=(m=c!=null?c:d[b])==null?void 0:m.call.apply(m,[d].concat(_.ze(e)));a.loggingStatus.currentExternalCall=void 0;a.loggingStatus.bypassProxyController=!1;return g}"><!--css-build:shady--><!--css_build_scope:yt-formatted-string--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_formatted_string.yt.formatted.string.css.js--><yt-attributed-string
+                                                    class="style-scope yt-formatted-string"></yt-attributed-string></yt-formatted-string>
+                                        </div>
+                                        <div id="access-restrictions-selector" class="style-scope ytd-commentbox"></div>
+                                        <span id="char-count" class="style-scope ytd-commentbox" hidden="">0/</span>
+                                        <div id="buttons"
+                                            class=" style-scope ytd-commentbox style-scope ytd-commentbox">
+                                            <ytd-button-renderer id="cancel-button" class="style-scope ytd-commentbox"
+                                                button-renderer=""
+                                                button-next=""><!--css-build:shady--><yt-button-shape><button
+                                                        class="yt-spec-button-shape-next yt-spec-button-shape-next--text yt-spec-button-shape-next--mono yt-spec-button-shape-next--size-m"
+                                                        aria-label="Cancel" title="" style="">
+                                                        <div class="yt-spec-button-shape-next__button-text-content">
+                                                            <span
+                                                                class="yt-core-attributed-string yt-core-attributed-string--white-space-no-wrap"
+                                                                role="text">Cancel</span></div><yt-touch-feedback-shape
+                                                            style="border-radius: inherit;">
+                                                            <div class="yt-spec-touch-feedback-shape yt-spec-touch-feedback-shape--touch-response"
+                                                                aria-hidden="true">
+                                                                <div class="yt-spec-touch-feedback-shape__stroke"
+                                                                    style=""></div>
+                                                                <div class="yt-spec-touch-feedback-shape__fill"
+                                                                    style=""></div>
+                                                            </div>
+                                                        </yt-touch-feedback-shape>
+                                                    </button></yt-button-shape><tp-yt-paper-tooltip offset="8"
+                                                    disable-upgrade=""></tp-yt-paper-tooltip></ytd-button-renderer>
+                                            <div class="tone-selector custom-dropdown    ">
+                                                <div
+                                                    class="dropdown-trigger
+                    ytcp-button-shape-impl ytcp-button-shape-impl--size-m ytcp-button-shape-impl--tonal ytcp-button-shape-impl--mono">
+
+                                                    <span class="selected-option">
+                                                        Select Tone
+                                                    </span>
+
+                                                    <span class="dropdown- ytcp-button-shape-impl--mono">
+                                                        ▾
+                                                    </span>
+
+                                                </div>
+                                                <ul class="dropdown-options" style="display: none;">
+                                                    <li data-value="neutral">Neutral</li>
+                                                    <li data-value="formal">Formal</li>
+                                                    <li data-value="casual">Casual</li>
+                                                    <li data-value="supportive">Supportive</li>
+                                                    <li data-value="disagree">Disagree</li>
+                                                    <li data-value="hahaha">Hahaha</li>
+                                                    <li data-value="posh">Posh</li>
+                                                    <li data-value="witty">Witty</li>
+                                                    <li data-value="sarcastic">Sarcastic</li>
+                                                    <li data-value="roast">Roast</li>
+                                                    <li data-value="GenZ-slang">GenZ Slang</li>
+                                                    <li data-value="playful">Playful</li>
+                                                    <li data-value="nerdy">Nerdy</li>
+                                                </ul>
+                                            </div><button
+                                                class="generate-comment-button ytcp-button-shape-impl ytcp-button-shape-impl--tonal ytcp-button-shape-impl--mono ytcp-button-shape-impl--size-m">
+                                                <span class="btn-text">Generate Comment</span>
+                                                <span class="loader ytcp-button-shape-impl--mono"></span>
+                                            </button>
+                                            <ytd-button-renderer id="submit-button" class="style-scope ytd-commentbox"
+                                                button-renderer=""
+                                                button-next=""><!--css-build:shady--><yt-button-shape><button
+                                                        class="yt-spec-button-shape-next yt-spec-button-shape-next--filled yt-spec-button-shape-next--disabled yt-spec-button-shape-next--size-m"
+                                                        disabled="" aria-disabled="true" aria-label="Reply" title=""
+                                                        style="">
+                                                        <div class="yt-spec-button-shape-next__button-text-content">
+                                                            <span
+                                                                class="yt-core-attributed-string yt-core-attributed-string--white-space-no-wrap"
+                                                                role="text">Reply</span></div>
+                                                    </button></yt-button-shape><tp-yt-paper-tooltip offset="8"
+                                                    disable-upgrade=""></tp-yt-paper-tooltip></ytd-button-renderer>
+                                            <div id="option-menu" class="style-scope ytd-commentbox">
+                                                <ytd-menu-renderer icon="yt-icons:arrow_drop_down"
+                                                    no-ink-on-dropdown-button="" class="style-scope ytd-commentbox"
+                                                    safe-area="" tonal-override="" menu-active=""
+                                                    hidden=""><!--css-build:shady--><!--css_build_scope:ytd-menu-renderer--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js-->
+                                                    <div id="top-level-buttons-computed"
+                                                        class="top-level-buttons style-scope ytd-menu-renderer"></div>
+                                                    <div id="flexible-item-buttons"
+                                                        class="style-scope ytd-menu-renderer"></div><yt-icon-button
+                                                        id="button"
+                                                        class="dropdown-trigger style-scope ytd-menu-renderer"
+                                                        style-target="button"><!--css-build:shady--><!--css_build_scope:yt-icon-button--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_icon_button.yt.icon.button.css.js--><button
+                                                            id="button" class="style-scope yt-icon-button"><yt-icon
+                                                                class="style-scope ytd-menu-renderer"><!--css-build:shady--><!--css_build_scope:yt-icon--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.core.yt_icon.yt.icon.css.js--><span
+                                                                    class="yt-icon-shape style-scope yt-icon yt-spec-icon-shape">
+                                                                    <div
+                                                                        style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            height="24" viewBox="0 0 24 24" width="24"
+                                                                            focusable="false" aria-hidden="true"
+                                                                            style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                                                            <path
+                                                                                d="m18 9.28-6.35 6.35-6.37-6.35.72-.71 5.64 5.65 5.65-5.65z">
+                                                                            </path>
+                                                                        </svg></div>
+                                                                </span></yt-icon></button><yt-interaction
+                                                            id="interaction"
+                                                            class="circular style-scope yt-icon-button"><!--css-build:shady--><!--css_build_scope:yt-interaction--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_interaction.yt.interaction.css.js-->
+                                                            <div class="stroke style-scope yt-interaction"></div>
+                                                            <div class="fill style-scope yt-interaction"></div>
+                                                        </yt-interaction></yt-icon-button><yt-button-shape
+                                                        id="button-shape" class="style-scope ytd-menu-renderer"
+                                                        hidden=""><button
+                                                            class="yt-spec-button-shape-next yt-spec-button-shape-next--filled yt-spec-button-shape-next--disabled yt-spec-button-shape-next--size-m yt-spec-button-shape-next--icon-button yt-spec-button-shape-next--segmented-end"
+                                                            title="" aria-disabled="true" style="">
+                                                            <div class="yt-spec-button-shape-next__icon"
+                                                                aria-hidden="true"><yt-icon
+                                                                    style="width: 24px; height: 24px;"><!--css-build:shady--><!--css_build_scope:yt-icon--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.core.yt_icon.yt.icon.css.js--><span
+                                                                        class="yt-icon-shape style-scope yt-icon yt-spec-icon-shape">
+                                                                        <div
+                                                                            style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                height="24" viewBox="0 0 24 24"
+                                                                                width="24" focusable="false"
+                                                                                aria-hidden="true"
+                                                                                style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                                                                <path
+                                                                                    d="m18 9.28-6.35 6.35-6.37-6.35.72-.71 5.64 5.65 5.65-5.65z">
+                                                                                </path>
+                                                                            </svg></div>
+                                                                    </span></yt-icon></div><yt-touch-feedback-shape
+                                                                style="border-radius: inherit;">
+                                                                <div class="yt-spec-touch-feedback-shape yt-spec-touch-feedback-shape--touch-response-inverse"
+                                                                    aria-hidden="true">
+                                                                    <div class="yt-spec-touch-feedback-shape__stroke"
+                                                                        style=""></div>
+                                                                    <div class="yt-spec-touch-feedback-shape__fill"
+                                                                        style=""></div>
+                                                                </div>
+                                                            </yt-touch-feedback-shape>
+                                                        </button></yt-button-shape>
+                                                </ytd-menu-renderer>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="scheduling-panel" class="style-scope ytd-commentbox"></div>
+                                    <div id="emojis" class="style-scope ytd-commentbox" hidden="">
+                                        <span id="emoji-picker"
+                                            class="style-scope ytd-commentbox"><yt-emoji-picker-renderer
+                                                class="style-scope ytd-commentbox"
+                                                id="emoji"><!--css-build:shady--><!--css_build_scope:yt-emoji-picker-renderer--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.renderers.yt_emoji_picker_renderer.yt.emoji.picker.renderer.css.js-->
+                                                <div id="search-panel" class="style-scope yt-emoji-picker-renderer">
+                                                    <tp-yt-paper-input id="search" no-label-float="" use-v2-underline=""
+                                                        class="style-scope yt-emoji-picker-renderer" tabindex="0"
+                                                        aria-disabled="false"><!--css-build:shady--><!--css_build_scope:tp-yt-paper-input--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,third_party.javascript.youtube_components.tp_yt_paper_input.tp.yt.paper.input.css.js--><tp-yt-paper-input-container
+                                                            id="container" class="style-scope tp-yt-paper-input"
+                                                            style-target="host"><!--css-build:shady--><!--css_build_scope:tp-yt-paper-input-container--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,third_party.javascript.youtube_components.tp_yt_paper_input_container.tp.yt.paper.input.container.css.js-->
+                                                            <div class="floated-label-placeholder style-scope tp-yt-paper-input-container"
+                                                                aria-hidden="true" hidden="">
+                                                                &nbsp;
+                                                            </div>
+
+                                                            <div
+                                                                class="input-wrapper style-scope tp-yt-paper-input-container">
+                                                                <span
+                                                                    class="prefix style-scope tp-yt-paper-input-container"></span>
+
+                                                                <div id="labelAndInputContainer"
+                                                                    class="input-content style-scope tp-yt-paper-input-container style-scope tp-yt-paper-input-container">
+                                                                    <label aria-hidden="true" slot="label"
+                                                                        class="style-scope tp-yt-paper-input"
+                                                                        for="input-3" id="paper-input-label-3"> </label>
+                                                                    <tp-yt-iron-input slot="input"
+                                                                        class="input-element style-scope tp-yt-paper-input"
+                                                                        id="input-3"><!--css-build:shady--><!--css_build_scope:tp-yt-iron-input--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,third_party.javascript.youtube_components.tp_yt_iron_input.tp.yt.iron.input.css.js-->
+                                                                        <input class="style-scope tp-yt-paper-input"
+                                                                            autocomplete="off" placeholder=""
+                                                                            autocapitalize="none" autocorrect="off"
+                                                                            aria-describedby=""
+                                                                            aria-labelledby="paper-input-label-3">
+
+                                                                    </tp-yt-iron-input>
+                                                                </div>
+
+                                                                <span
+                                                                    class="suffix style-scope tp-yt-paper-input-container"></span>
+                                                            </div>
+
+                                                            <div
+                                                                class="underline style-scope tp-yt-paper-input-container style-scope tp-yt-paper-input-container">
+                                                                <div
+                                                                    class="unfocused-line style-scope tp-yt-paper-input-container">
+                                                                </div>
+                                                                <div
+                                                                    class="focused-line style-scope tp-yt-paper-input-container">
+                                                                </div>
+                                                            </div>
+
+                                                            <div
+                                                                class="add-on-content style-scope tp-yt-paper-input-container style-scope tp-yt-paper-input-container">
+
+                                                            </div>
+                                                        </tp-yt-paper-input-container>
+                                                    </tp-yt-paper-input><yt-icon-button id="clear-search"
+                                                        class="style-scope yt-emoji-picker-renderer"
+                                                        hidden=""><!--css-build:shady--><!--css_build_scope:yt-icon-button--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_icon_button.yt.icon.button.css.js--><button
+                                                            id="button" class="style-scope yt-icon-button"
+                                                            aria-label="Clear search"><yt-icon icon="close"
+                                                                class="style-scope yt-emoji-picker-renderer"><!--css-build:shady--><!--css_build_scope:yt-icon--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.core.yt_icon.yt.icon.css.js--><span
+                                                                    class="yt-icon-shape style-scope yt-icon yt-spec-icon-shape">
+                                                                    <div
+                                                                        style="width: 100%; height: 100%; display: block; fill: currentcolor;">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            enable-background="new 0 0 24 24"
+                                                                            height="24" viewBox="0 0 24 24" width="24"
+                                                                            focusable="false" aria-hidden="true"
+                                                                            style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                                                            <path
+                                                                                d="m12.71 12 8.15 8.15-.71.71L12 12.71l-8.15 8.15-.71-.71L11.29 12 3.15 3.85l.71-.71L12 11.29l8.15-8.15.71.71L12.71 12z">
+                                                                            </path>
+                                                                        </svg></div>
+                                                                </span></yt-icon></button><yt-interaction
+                                                            id="interaction"
+                                                            class="circular style-scope yt-icon-button"><!--css-build:shady--><!--css_build_scope:yt-interaction--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_interaction.yt.interaction.css.js-->
+                                                            <div class="stroke style-scope yt-interaction"></div>
+                                                            <div class="fill style-scope yt-interaction"></div>
+                                                        </yt-interaction></yt-icon-button><button id="skin-tone"
+                                                        selected="" class="style-scope yt-emoji-picker-renderer"
+                                                        tone="0"
+                                                        aria-label="Pick emoji skin tone"></button><tp-yt-iron-dropdown
+                                                        id="dropdown" allow-outside-scroll="" horizontal-align="right"
+                                                        horizontal-offset="8" no-auto-focus="" vertical-align="top"
+                                                        vertical-offset="8" class="style-scope yt-emoji-picker-renderer"
+                                                        aria-disabled="false" aria-hidden="true"
+                                                        style="outline: none; display: none;"><!--css-build:shady--><!--css_build_scope:tp-yt-iron-dropdown--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,third_party.javascript.youtube_components.tp_yt_iron_dropdown.tp.yt.iron.dropdown.css.js-->
+                                                        <div id="contentWrapper"
+                                                            class="style-scope tp-yt-iron-dropdown">
+                                                            <div id="dropdown-content"
+                                                                class="dropdown-content style-scope yt-emoji-picker-renderer"
+                                                                slot="dropdown-content"><button tone="0"
+                                                                    class="style-scope yt-emoji-picker-renderer"
+                                                                    selected=""
+                                                                    aria-label="Generic skin tone"></button><button
+                                                                    tone="1"
+                                                                    class="style-scope yt-emoji-picker-renderer"
+                                                                    aria-label="Light skin tone"></button><button
+                                                                    tone="2"
+                                                                    class="style-scope yt-emoji-picker-renderer"
+                                                                    aria-label="Medium light skin tone"></button><button
+                                                                    tone="3"
+                                                                    class="style-scope yt-emoji-picker-renderer"
+                                                                    aria-label="Medium skin tone"></button><button
+                                                                    tone="4"
+                                                                    class="style-scope yt-emoji-picker-renderer"
+                                                                    aria-label="Medium dark skin tone"></button><button
+                                                                    tone="5"
+                                                                    class="style-scope yt-emoji-picker-renderer"
+                                                                    aria-label="Dark skin tone"></button></div>
+                                                        </div>
+                                                    </tp-yt-iron-dropdown></div>
+                                                <div id="category-buttons" class="style-scope yt-emoji-picker-renderer">
+                                                </div><yt-emoji-picker-category-renderer id="search-category"
+                                                    class="style-scope yt-emoji-picker-renderer"
+                                                    aria-activedescendant="" role="listbox"
+                                                    tabindex="0"><!--css-build:shady--><!--css_build_scope:yt-emoji-picker-category-renderer--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.renderers.yt_emoji_picker_category_renderer.yt.emoji.picker.category.renderer.css.js--><yt-formatted-string
+                                                        id="title" class="style-scope yt-emoji-picker-category-renderer"
+                                                        is-empty="function(){var e=_.Ed.apply(0,arguments);a.loggingStatus.currentExternalCall=b;a.loggingStatus.bypassProxyController=!0;var g,k=((g=a.is)!=null?g:a.tagName).toLowerCase();cr(k,b,&quot;PROPERTY_ACCESS_CALL_EXTERNAL&quot;);var m;g=(m=c!=null?c:d[b])==null?void 0:m.call.apply(m,[d].concat(_.ze(e)));a.loggingStatus.currentExternalCall=void 0;a.loggingStatus.bypassProxyController=!1;return g}"><!--css-build:shady--><!--css_build_scope:yt-formatted-string--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_formatted_string.yt.formatted.string.css.js--><yt-attributed-string
+                                                            class="style-scope yt-formatted-string"></yt-attributed-string></yt-formatted-string>
+                                                    <div id="emoji" role="listbox"
+                                                        class=" style-scope yt-emoji-picker-category-renderer">
+                                                        <dom-repeat id="repeat"
+                                                            class="style-scope yt-emoji-picker-category-renderer"><template
+                                                                is="dom-repeat"></template></dom-repeat></div>
+                                                </yt-emoji-picker-category-renderer><yt-formatted-string
+                                                    id="search-empty" class="style-scope yt-emoji-picker-renderer"
+                                                    hidden="" is-empty=""></yt-formatted-string>
+                                                <div id="categories-wrapper"
+                                                    class="style-scope yt-emoji-picker-renderer">
+                                                    <div id="categories" class="style-scope yt-emoji-picker-renderer">
+                                                    </div>
+                                                </div>
+                                                <div id="emoji-variant-selector"
+                                                    class="style-scope yt-emoji-picker-renderer" hidden=""></div>
+                                                <div id="emoji-multi-person-selector"
+                                                    class="style-scope yt-emoji-picker-renderer" hidden=""></div>
+                                            </yt-emoji-picker-renderer></span>
+                                    </div>
+                                </div>
+                                <tp-yt-paper-spinner-lite class="style-scope ytd-commentbox" aria-hidden="true"
+                                    aria-label="loading"><!--css-build:shady--><!--css_build_scope:tp-yt-paper-spinner-lite--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,third_party.javascript.youtube_components.tp_yt_paper_spinner_lite.tp.yt.paper.spinner.lite.css.js-->
+                                    <div id="spinnerContainer" class="  style-scope tp-yt-paper-spinner-lite">
+                                        <div class="spinner-layer style-scope tp-yt-paper-spinner-lite">
+                                            <div class="circle-clipper left style-scope tp-yt-paper-spinner-lite">
+                                                <div class="circle style-scope tp-yt-paper-spinner-lite"></div>
+                                            </div>
+                                            <div class="circle-clipper right style-scope tp-yt-paper-spinner-lite">
+                                                <div class="circle style-scope tp-yt-paper-spinner-lite"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tp-yt-paper-spinner-lite>
+                            </div>
+                        </ytd-commentbox>
+                        <div id="unopened-dialog" class="style-scope ytd-comment-reply-dialog-renderer" hidden="">
+                            <yt-img-shadow id="author-thumbnail" height="40" width="40"
+                                class="style-scope ytd-comment-reply-dialog-renderer no-transition empty"
+                                style="background-color: transparent;"><!--css-build:shady--><!--css_build_scope:yt-img-shadow--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_img_shadow.yt.img.shadow.css.js--><img
+                                    id="img" draggable="false" class="style-scope yt-img-shadow" alt="" height="40"
+                                    width="40"></yt-img-shadow>
+                            <div id="placeholder-area" class="style-scope ytd-comment-reply-dialog-renderer">
+                                <yt-formatted-string id="placeholder-text" role="textbox" tabindex="0"
+                                    class="style-scope ytd-comment-reply-dialog-renderer">Add a
+                                    reply...</yt-formatted-string>
+                            </div>
+                        </div>
+                    </ytd-comment-reply-dialog-renderer></div>
+            </ytd-comment-engagement-bar>
+        </div>
+
+        <div id="action-menu" class="style-scope ytd-comment-view-model">
+            <ytd-menu-renderer class="style-scope ytd-comment-view-model" safe-area=""
+                menu-active=""><!--css-build:shady--><!--css_build_scope:ytd-menu-renderer--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js-->
+                <div id="top-level-buttons-computed" class="top-level-buttons style-scope ytd-menu-renderer"></div>
+                <div id="flexible-item-buttons" class="style-scope ytd-menu-renderer"></div><yt-icon-button id="button"
+                    class="dropdown-trigger style-scope ytd-menu-renderer"
+                    style-target="button"><!--css-build:shady--><!--css_build_scope:yt-icon-button--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_icon_button.yt.icon.button.css.js--><button
+                        id="button" class="style-scope yt-icon-button" aria-label="Action menu"><yt-icon
+                            class="style-scope ytd-menu-renderer"><!--css-build:shady--><!--css_build_scope:yt-icon--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.core.yt_icon.yt.icon.css.js--><span
+                                class="yt-icon-shape style-scope yt-icon yt-spec-icon-shape">
+                                <div style="width: 100%; height: 100%; display: block; fill: currentcolor;"><svg
+                                        xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24"
+                                        viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true"
+                                        style="pointer-events: none; display: inherit; width: 100%; height: 100%;">
+                                        <path
+                                            d="M12 16.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zM10.5 12c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5zm0-6c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5-1.5.67-1.5 1.5z">
+                                        </path>
+                                    </svg></div>
+                            </span></yt-icon></button><yt-interaction id="interaction"
+                        class="circular style-scope yt-icon-button"><!--css-build:shady--><!--css_build_scope:yt-interaction--><!--css_build_styles:video.youtube.src.web.polymer.shared.ui.styles.yt_base_styles.yt.base.styles.css.js,video.youtube.src.web.polymer.shared.ui.yt_interaction.yt.interaction.css.js-->
+                        <div class="stroke style-scope yt-interaction"></div>
+                        <div class="fill style-scope yt-interaction"></div>
+                    </yt-interaction></yt-icon-button><yt-button-shape id="button-shape"
+                    class="style-scope ytd-menu-renderer" disable-upgrade="" hidden=""></yt-button-shape>
+            </ytd-menu-renderer>
+        </div>
+        <grammarly-extension-vbars data-grammarly-shadow-root="true" style="display: contents;"
+            class="dnXmp"></grammarly-extension-vbars>
+    </div>
+    <div id="edit-dialog" class="style-scope ytd-comment-view-model" hidden=""></div>
+
+</ytd-comment-view-model>

@@ -1,0 +1,198 @@
+/* General Page Styling */
+body {
+  /* background-color: #282828; */
+}
+
+:root {
+  --btnBG: rgba(0, 0, 0, 0.05);
+  --btnColor: #030303;
+  --transBtnBG: rgba(0, 0, 0, 0.063);
+  /* --btnBorder: #4e4e4e; */
+}
+
+/* Ensure textarea does not overflow and is resized properly */
+tp-yt-iron-autogrow-textarea {
+  display: block;
+  position: relative;
+}
+
+.textarea-container {
+  position: relative;
+}
+
+#mirror {
+  display: block;
+  white-space: pre-wrap;
+}
+
+/* Style for the Generate Comment button */
+.generate-comment-button {
+  /* background-color: var(--transBtnBG); */
+  /* color: var(--btnColor); */
+  border: 1px solid var(--btnBorder);
+  border-radius: 20px;
+  /* height: 36px; */
+  width: 150px;
+  min-width: 150px;
+
+  /* font-size: 14px; */
+  /* font-weight: 400;   */
+  cursor: pointer;
+  /* font-family: Roboto, Arial, Helvetica, sans-serif; */
+  transition: background-color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  /* margin-left: 10px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.generate-comment-button:hover {
+  /* background-color: rgba(0, 0, 0, 0.118);; */
+}
+
+.generate-comment-button:active {
+  transform: scale(0.98);
+}
+
+/* Style the select element */
+.tone-selector {
+  border-radius: 20px;
+
+  /* font-size: 14px; */
+  /* font-weight: normal; */
+  /* color: #333; */
+  cursor: pointer;
+
+  appearance: none;
+  /* Removes the default arrow for better customization */
+  background-image: url("data:image/svg+xml;base64,<SVG_ICON>");
+  /* Custom arrow icon */
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+/* Replace <SVG_ICON> with a base64-encoded SVG for a custom arrow */
+
+/* Style the options inside the select element */
+/* Style for the custom dropdown container */
+.tone-selector.custom-dropdown {
+  position: relative;
+}
+
+/* Style for the dropdown trigger (the visible part) */
+.dropdown-trigger {
+    position: relative;
+  /* padding: 0 20px; */
+  cursor: pointer;
+  width: 120px;
+  min-width: 120px;
+}
+
+.selected-option {
+   margin-right: 10px;
+}
+
+/* Style for the dropdown arrow */
+.dropdown-arrow {
+  font-size: 12px;
+}
+
+
+/* Style for the dropdown options container */
+.dropdown-options {
+  position: absolute;
+  background-color: white;
+  border: none;
+  width: fit-content;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-height: 150px;
+  width: 100%;
+  min-width: 130px;
+  overflow-y: auto;
+  display: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 10px;
+  list-style: none;
+  transition: all 0.3s ease-in;
+  top: -153px;
+  /* transform: rotate(180deg); */
+}
+
+.dropdown-options::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  border-radius: 0px 8px 10px 0;
+  /* border: 1px solid red; */
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Track */
+.dropdown-options::-webkit-scrollbar-track {
+  /* background-color:  rgba(0, 0, 0, 0.2); */
+  border-radius: 0px 8px 10px 0;
+  /* border: 1px solid red; */
+}
+
+/* Handle */
+.dropdown-options::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color of the scrollbar handle */
+  border-radius: 0px 4px 4px 0;
+}
+
+/* Handle on hover */
+.dropdown-options::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+/* Style for each option */
+.dropdown-options li {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  display: flex;
+  justify-content: flex-start;
+  /* transform: rotate(180deg); */
+}
+
+.dropdown-options li.pro-plan {
+}
+
+/* Style when hovering over an option */
+.dropdown-options li:hover {
+  background-color: rgba(128, 128, 128, 0.301);
+  color: grey;
+}
+
+/* Global Loader for Initialization */
+#ytsgpt-global-loader {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #282828;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 8px;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "Roboto", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  opacity: 1;
+}
+
+#ytsgpt-global-loader .loader {
+  display: inline-block; /* Overrides display: none from loader.css */
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff; /* Different style for better visibility */
+  border-bottom-color: rgba(255, 255, 255, 0.3); /* Resetting this from loader.css */
+  animation: rotation 0.8s linear infinite; /* Using keyframes from loader.css */
+}

@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Studio GPT",
+  "version": "0.11",
+  "description": "Quickly reply to your YouTube channel comments in 3 click using AI",
+  "permissions": [
+    "storage"
+  ],
+  "icons": {
+    "48": "images/ytsgpt-logo.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://studio.youtube.com/*", "https://www.youtube.com/*"],
+      "js": ["content.js"],
+      "css": ["styles/content.css", "styles/loader.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/icon.png", "tabs/dashboard.html"],  
+      "matches": ["<all_urls>"] 
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "host_permissions": [
+    "https://qrnnthitqgpiowixmlpd.supabase.co/*"
+  ]
+}
