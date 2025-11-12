@@ -952,7 +952,19 @@ async function checkLoginStatus() {
 
   } else {
     console.log("tabs/script.js: User is not logged in. Please log in via the popup.");
-    // Loader remains active, showing the login prompt from the HTML.
+    if (pageLoader) {
+      pageLoader.classList.remove("active");
+    }
+    const mainBox = document.querySelector('.main-box-layer');
+    if (mainBox) {
+      // Clear existing content and show prompt
+      mainBox.innerHTML = `
+        <div class="login-prompt">
+          <h1>Please Log In</h1>
+          <p>You need to log in through the extension popup to access this page.</p>
+        </div>
+      `;
+    }
   }
 }
 
