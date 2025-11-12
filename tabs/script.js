@@ -632,27 +632,44 @@ function displayComments(comments, videoTitleMap) {
     const container = document.getElementById('comment-list-container');
     container.innerHTML = ''; // Clear loader
 
-    chrome.storage.local.get(["customTones"], (settings) => {
+    chrome.storage.local.get(["customTones", "defaultTone"], (settings) => {
         const customTones = settings.customTones || [];
-        let tonesListHtml = `
-            <li data-value="neutral">Neutral</li>
-            <li data-value="formal">Formal</li>
-            <li data-value="casual">Casual</li>
-            <li data-value="supportive">Supportive</li>
-            <li data-value="disagree">Disagree</li>
-            <li data-value="hahaha">Hahaha</li>
-            <li data-value="posh">Posh</li>
-            <li data-value="witty">Witty</li>
-            <li data-value="sarcastic">Sarcastic</li>
-            <li data-value="roast">Roast</li>
-            <li data-value="GenZ-slang">GenZ Slang</li>
-            <li data-value="playful">Playful</li>
-            <li data-value="nerdy">Nerdy</li>
-        `;
+        const defaultToneValue = settings.defaultTone;
+
+        const standardTones = [
+            { value: 'neutral', text: 'Neutral' },
+            { value: 'formal', text: 'Formal' },
+            { value: 'casual', text: 'Casual' },
+            { value: 'supportive', text: 'Supportive' },
+            { value: 'disagree', text: 'Disagree' },
+            { value: 'hahaha', text: 'Hahaha' },
+            { value: 'posh', text: 'Posh' },
+            { value: 'witty', text: 'Witty' },
+            { value: 'sarcastic', text: 'Sarcastic' },
+            { value: 'roast', text: 'Roast' },
+            { value: 'GenZ-slang', text: 'GenZ Slang' },
+            { value: 'playful', text: 'Playful' },
+            { value: 'nerdy', text: 'Nerdy' },
+        ];
+
+        let tonesListHtml = '';
+        const tonesMap = new Map();
+
+        standardTones.forEach(tone => {
+            tonesListHtml += `<li data-value="${tone.value}">${tone.text}</li>`;
+            tonesMap.set(tone.value, tone.text);
+        });
+
         customTones.forEach(tone => {
             const dataValue = tone.toLowerCase().replace(/\s+/g, '-');
             tonesListHtml += `<li data-value="${dataValue}">${tone}</li>`;
+            tonesMap.set(dataValue, tone);
         });
+
+        let defaultToneText = 'Neutral'; // Fallback
+        if (defaultToneValue && tonesMap.has(defaultToneValue)) {
+            defaultToneText = tonesMap.get(defaultToneValue);
+        }
 
         comments.forEach(item => {
             const topLevelComment = item.snippet.topLevelComment.snippet;
@@ -686,7 +703,7 @@ function displayComments(comments, videoTitleMap) {
                         <div class="reply-controls">
                             <div class="tone-selector custom-dropdown">
                                 <div class="dropdown-trigger">
-                                    <span class="selected-option">Neutral</span>
+                                    <span class="selected-option">${defaultToneText}</span>
                                     <span class="dropdown-arrow">&#9662;</span>
                                 </div>
                                 <ul class="dropdown-options">
