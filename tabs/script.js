@@ -246,7 +246,118 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (document.body.dataset.title === "Pricing") {
     setupPricingToggles();
   }
+
+  // Check if on dashboard page and setup YouTube auth button
+  if (document.body.dataset.title === "Dashboard") {
+    const connectChannelBtn = document.getElementById('connect-channel-btn');
+    if (connectChannelBtn) {
+        connectChannelBtn.addEventListener('click', authorizeWithYouTube);
+    }
+  }
 });
+
+function authorizeWithYouTube() {
+    const btn = document.getElementById('connect-channel-btn');
+    if (!btn) return;
+
+    const originalText = btn.textContent;
+    btn.textContent = 'Authorizing...';
+    btn.disabled = true;
+
+    console.log("tabs/script.js: Starting YouTube authorization flow.");
+    // The 'interactive' flag will prompt the user for consent if needed.
+    chrome.identity.getAuthToken({ interactive: true }, function(token) {
+        if (chrome.runtime.lastError) {
+            console.error("tabs/script.js: getAuthToken failed:", chrome.runtime.lastError.message);
+            alert("Authorization failed. Please ensure you have set your OAuth Client ID in the manifest.json file. Error: " + chrome.runtime.lastError.message);
+            if (btn) {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+            return;
+        }
+        if (token) {
+            console.log("tabs/script.js: Successfully received auth token.");
+            fetchYouTubeChannels(token);
+        } else {
+            if (btn) {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        }
+    });
+}
+
+async function fetchYouTubeChannels(token) {
+    const btn = document.getElementById('connect-channel-btn');
+    const originalText = "Authorize with YouTube";
+    if (btn) btn.textContent = 'Fetching Channels...';
+
+    console.log("tabs/script.js: Fetching YouTube channels...");
+    try {
+        const response = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&mine=true', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            if (response.status === 401) {
+                console.log("tabs/script.js: Auth token is invalid or expired. Removing it.");
+                chrome.identity.removeCachedAuthToken({ token: token }, () => {
+                     alert("Your authorization has expired. Please click the 'Authorize with YouTube' button again.");
+                });
+            }
+            throw new Error(`Google API responded with status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("tabs/script.js: Received channel data:", data);
+
+        if (data.items && data.items.length > 0) {
+            displayChannels(data.items);
+        } else {
+            const channelsList = document.getElementById('connected-channels-list');
+            if (channelsList) {
+                channelsList.innerHTML = '<p>No YouTube channels found for this Google account.</p>';
+            }
+        }
+    } catch (error) {
+        console.error("tabs/script.js: Error fetching YouTube channels:", error);
+        alert("Failed to fetch your YouTube channels. Please try authorizing again.");
+    } finally {
+        if (btn) {
+            btn.textContent = originalText;
+            btn.disabled = false;
+        }
+    }
+}
+
+function displayChannels(channels) {
+    const channelsListContainer = document.getElementById('connected-channels-list');
+    if (!channelsListContainer) return;
+
+    // Clear the placeholder text
+    channelsListContainer.innerHTML = ''; 
+
+    channels.forEach(channel => {
+        const snippet = channel.snippet;
+        const stats = channel.statistics;
+
+        const channelElement = document.createElement('div');
+        channelElement.className = 'connected-channel-item';
+        
+        channelElement.innerHTML = `
+            <img src="${snippet.thumbnails.default.url}" alt="${snippet.title} thumbnail" class="channel-thumbnail">
+            <div class="channel-info">
+                <h4 class="channel-title">${snippet.title}</h4>
+                <p class="channel-subs">${parseInt(stats.subscriberCount).toLocaleString()} subscribers</p>
+            </div>
+        `;
+        channelsListContainer.appendChild(channelElement);
+    });
+}
 
 function setupPricingToggles() {
     const toggles = document.querySelectorAll('.plan-toggle');

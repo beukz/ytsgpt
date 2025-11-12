@@ -507,6 +507,110 @@ body {
   background-color: #3a3a3a;
 }
 
+/* Channels Section */
+.channels-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.channel-card {
+    background-color: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    width: 300px;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+}
+
+.add-channel-card h3 {
+    font-size: 1.2rem;
+    margin: 0 0 10px 0;
+    color: #1f1f1f;
+}
+
+.add-channel-card p {
+    font-size: 0.9rem;
+    color: var(--textColor);
+    margin-bottom: auto; /* Pushes button to the bottom */
+    padding-bottom: 15px;
+}
+
+#connect-channel-btn {
+    display: inline-block;
+    text-align: center;
+    padding: 10px 15px;
+    border-radius: 6px;
+    background-color: #c70202;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+#connect-channel-btn:hover {
+    background-color: #a60202;
+}
+
+#connect-channel-btn:disabled {
+    background-color: #888;
+    cursor: not-allowed;
+}
+
+.add-channel-card .auth-note {
+    font-size: 0.8rem;
+    color: var(--textColor);
+    margin-top: 10px;
+    font-style: italic;
+}
+
+#connected-channels-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 0; /* Override card padding */
+}
+
+.connected-channel-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.channel-thumbnail {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.channel-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.channel-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    color: #1f1f1f;
+}
+
+.channel-subs {
+    font-size: 0.85rem;
+    color: var(--textColor);
+    margin: 4px 0 0 0;
+}
+
 
 /* footer */
 .footer-box {
