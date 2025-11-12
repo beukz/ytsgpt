@@ -318,6 +318,13 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
         });
 
+        // Add input event listener for auto-resizing textareas
+        commentListContainer.addEventListener('input', (event) => {
+            if (event.target.matches('.reply-textarea')) {
+                autoResizeTextarea(event.target);
+            }
+        });
+
         // Close dropdown if clicked outside
         document.addEventListener('click', function (event) {
             if (!event.target.closest('.custom-dropdown')) {
@@ -551,6 +558,13 @@ function timeAgo(date) {
     return Math.floor(seconds) + " seconds ago";
 }
 
+function autoResizeTextarea(textarea) {
+    // Reset height to allow shrinking
+    textarea.style.height = 'auto';
+    // Set height to match content
+    textarea.style.height = textarea.scrollHeight + 'px';
+}
+
 async function fetchCommentsForChannel() {
     const container = document.getElementById('comment-list-container');
     if (!container) return;
@@ -752,7 +766,7 @@ async function generateReplyInDashboard(button) {
 
             if (data.success && data.generated_comment) {
                 textarea.value = data.generated_comment;
-                textarea.dispatchEvent(new Event('input', { bubbles: true })); // For potential height adjustment
+                autoResizeTextarea(textarea);
             } else {
                 throw new Error(data.message || `HTTP error! status: ${response.status}`);
             }

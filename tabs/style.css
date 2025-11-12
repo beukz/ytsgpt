@@ -827,8 +827,10 @@ body {
     border: 1px solid var(--lightBorder);
     font-family: inherit;
     font-size: 0.9rem;
-    resize: vertical;
+    resize: none;
     margin-bottom: 10px;
+    overflow-y: hidden;
+    box-sizing: border-box;
 }
 
 .reply-controls {
