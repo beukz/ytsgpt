@@ -576,6 +576,12 @@ body {
     padding: 0; /* Override card padding */
 }
 
+.connected-channel-item-link {
+    text-decoration: none;
+    color: inherit;
+    display: block; /* To make the whole area clickable */
+}
+
 .connected-channel-item {
     display: flex;
     align-items: center;
@@ -584,6 +590,13 @@ body {
     padding: 10px;
     border-radius: 8px;
     border: 1px solid var(--border);
+    transition: all 0.2s ease-in-out;
+}
+
+.connected-channel-item-link:hover .connected-channel-item {
+    border-color: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .channel-thumbnail {
@@ -609,6 +622,100 @@ body {
     font-size: 0.85rem;
     color: var(--textColor);
     margin: 4px 0 0 0;
+}
+
+/* Comment Center */
+#comment-list-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+    gap: 15px;
+    color: var(--textColor);
+}
+
+.comment-item {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background-color: #fff;
+}
+
+.commenter-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.comment-content {
+    flex-grow: 1;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.commenter-name {
+    font-weight: 600;
+    color: #1f1f1f;
+}
+
+.comment-date {
+    font-size: 0.8rem;
+    color: var(--textColor);
+}
+
+.comment-text {
+    line-height: 1.5;
+    color: #333;
+}
+
+.comment-video-context {
+    font-size: 0.85rem;
+    color: var(--textColor);
+    margin-top: 10px;
+    border-top: 1px dashed var(--border);
+    padding-top: 10px;
+}
+
+.comment-video-context a {
+    color: #065fd4;
+    text-decoration: none;
+}
+
+.comment-video-context a:hover {
+    text-decoration: underline;
+}
+
+.comment-actions {
+    margin-top: 10px;
+}
+
+.reply-btn {
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid var(--lightBorder);
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: background-color 0.2s;
+}
+
+.reply-btn:hover {
+    background-color: #e0e0e0;
 }
 
 

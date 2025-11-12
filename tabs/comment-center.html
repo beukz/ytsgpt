@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
      
 
-    <title>Dashboard</title>
+    <title>Comment Center</title>
 
     <!-- stylesheets -->
     <link rel="stylesheet" href="/tabs/style.css" />
@@ -27,7 +27,7 @@
     />
   </head>
 
-  <body data-title="Dashboard">
+  <body data-title="Comment Center">
     <!-- page loader -->
     <div class="page-loader" id="pageLoader">
       <span class="loader"></span>
@@ -129,8 +129,8 @@
   
           <div class="navbar-subMenu">
             <ul>
-              <li> <a href="dashboard.html" class="active">Dashboard</a> </li>
-              <li> <a href="comment-center.html">Comment Center</a> </li>
+              <li> <a href="dashboard.html">Dashboard</a> </li>
+              <li> <a href="comment-center.html" class="active">Comment Center</a> </li>
               <li> <a href="settings.html">Settings</a> </li>
               <li> <a href="pricing.html">Pricing</a> </li>
             </ul>
@@ -166,66 +166,16 @@
       </div>
     </div>
 
-    <main>
-      <div class="sidebar-box">
-
-      </div>
-    </main>
-
     <!-- main box -->
     <div class="main-box">
       <div class="main-box-layer">
 
         <div class="hero-title">
-          <h1>Overview</h1>
+          <h1>Comment Center for <span id="channel-title-header">Your Channel</span></h1>
         </div>
 
-        <div class="overview-grid">
-          <!-- Credits Card -->
-          <div class="ov-stat-box">
-            <div class="ov-stats">
-              <div class="ov-stats-layer">
-                <div class="ov-credits">
-                  <p><span id="user-credits"></span> <span>credits</span></p>
-                </div>
-  
-                <div class="ov-icon">
-                  <i class="fi fi-tr-coins"></i>
-                </div>
-              </div>
-            </div>
-  
-            <div class="img-bush bush-rotate">
-              <img src="/images/brush.webp" alt="" />
-            </div>
-          </div>
-
-          <!-- Account Status Card -->
-          <div class="account-status-card">
-            <h3>Account Status</h3>
-            <div class="account-details">
-              <p><strong>Current Plan:</strong> <span id="current-plan"></span></p>
-              <p><strong>Credits Reset On:</strong> <span id="reset-date"></span></p>
-            </div>
-            <a href="#" id="plan-action-btn" target="_blank">Manage Plan</a>
-          </div>
-
-        </div>
-
-        <div class="hero-title" style="margin-top: 40px;">
-          <h1>Your Channels</h1>
-        </div>
-        <div class="channels-grid">
-            <div class="channel-card" id="connected-channels-list">
-                <!-- This will be populated by script.js -->
-                <p>Authorize with YouTube to see your channels here.</p>
-            </div>
-            <div class="channel-card add-channel-card">
-                <h3>Connect or Refresh Channels</h3>
-                <p>Grant permission to manage your YouTube channel comments directly from the dashboard.</p>
-                <button id="connect-channel-btn">Authorize with YouTube</button>
-                <p class="auth-note">Note: When prompted, please select your main Google Account, not your YouTube channel brand account.</p>
-            </div>
+        <div id="comment-list-container">
+            <!-- Comments will be loaded here by script.js -->
         </div>
 
       </div>

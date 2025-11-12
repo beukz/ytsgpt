@@ -254,6 +254,27 @@ document.addEventListener("DOMContentLoaded", async function () {
         connectChannelBtn.addEventListener('click', authorizeWithYouTube);
     }
   }
+
+  // Check if on Comment Center page
+  if (document.body.dataset.title === "Comment Center") {
+    const params = new URLSearchParams(window.location.search);
+    const channelId = params.get('channelId');
+    const channelTitle = params.get('channelTitle');
+
+    const titleHeader = document.getElementById('channel-title-header');
+    if (titleHeader && channelTitle) {
+        titleHeader.textContent = decodeURIComponent(channelTitle);
+    }
+
+    if (channelId) {
+        fetchCommentsForChannel(channelId);
+    } else {
+        const container = document.getElementById('comment-list-container');
+        if(container) {
+          container.innerHTML = '<p>No channel selected. Please go back to the dashboard and select a channel.</p>';
+        }
+    }
+  }
 });
 
 function authorizeWithYouTube() {
@@ -345,17 +366,125 @@ function displayChannels(channels) {
         const snippet = channel.snippet;
         const stats = channel.statistics;
 
-        const channelElement = document.createElement('div');
-        channelElement.className = 'connected-channel-item';
-        
-        channelElement.innerHTML = `
-            <img src="${snippet.thumbnails.default.url}" alt="${snippet.title} thumbnail" class="channel-thumbnail">
-            <div class="channel-info">
-                <h4 class="channel-title">${snippet.title}</h4>
-                <p class="channel-subs">${parseInt(stats.subscriberCount).toLocaleString()} subscribers</p>
+        const channelLink = document.createElement('a');
+        channelLink.className = 'connected-channel-item-link';
+        channelLink.href = `comment-center.html?channelId=${channel.id}&channelTitle=${encodeURIComponent(snippet.title)}`;
+
+        channelLink.innerHTML = `
+            <div class="connected-channel-item">
+                <img src="${snippet.thumbnails.default.url}" alt="${snippet.title} thumbnail" class="channel-thumbnail">
+                <div class="channel-info">
+                    <h4 class="channel-title">${snippet.title}</h4>
+                    <p class="channel-subs">${parseInt(stats.subscriberCount).toLocaleString()} subscribers</p>
+                </div>
             </div>
         `;
-        channelsListContainer.appendChild(channelElement);
+        channelsListContainer.appendChild(channelLink);
+    });
+}
+
+function timeAgo(date) {
+    const seconds = Math.floor((new Date() - date) / 1000);
+    let interval = seconds / 31536000;
+    if (interval > 1) return Math.floor(interval) + " years ago";
+    interval = seconds / 2592000;
+    if (interval > 1) return Math.floor(interval) + " months ago";
+    interval = seconds / 86400;
+    if (interval > 1) return Math.floor(interval) + " days ago";
+    interval = seconds / 3600;
+    if (interval > 1) return Math.floor(interval) + " hours ago";
+    interval = seconds / 60;
+    if (interval > 1) return Math.floor(interval) + " minutes ago";
+    return Math.floor(seconds) + " seconds ago";
+}
+
+async function fetchCommentsForChannel(channelId) {
+    const container = document.getElementById('comment-list-container');
+    if (!container) return;
+    container.innerHTML = '<div class="loader-container"><span class="loader"></span><p>Fetching comments...</p></div>';
+
+    chrome.identity.getAuthToken({ interactive: false }, async function(token) {
+        if (chrome.runtime.lastError || !token) {
+            console.error("Could not get auth token:", chrome.runtime.lastError?.message);
+            container.innerHTML = '<p>Error: Could not authenticate. Please re-authorize on the dashboard.</p>';
+            return;
+        }
+
+        try {
+            // 1. Fetch comment threads
+            const commentResponse = await fetch(`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&allThreadsRelatedToChannelId=${channelId}&maxResults=25&order=time`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!commentResponse.ok) throw new Error(`API error fetching comments: ${commentResponse.status}`);
+            const commentData = await commentResponse.json();
+            const commentItems = commentData.items || [];
+
+            if (commentItems.length === 0) {
+                container.innerHTML = '<p>No recent comments found for this channel.</p>';
+                return;
+            }
+
+            // 2. Collect unique video IDs
+            const videoIds = [...new Set(commentItems.map(item => item.snippet.videoId))];
+
+            // 3. Fetch video details in a batch
+            const videoResponse = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoIds.join(',')}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!videoResponse.ok) console.error(`API error fetching videos: ${videoResponse.status}`); // Don't throw, just log error
+            const videoData = await videoResponse.json();
+            
+            // 4. Create a video title map
+            const videoTitleMap = new Map();
+            if (videoData.items) {
+                videoData.items.forEach(video => {
+                    videoTitleMap.set(video.id, video.snippet.title);
+                });
+            }
+
+            // 5. Display comments
+            displayComments(commentItems, videoTitleMap);
+
+        } catch (error) {
+            console.error("Error fetching comments:", error);
+            container.innerHTML = `<p>An error occurred while fetching comments: ${error.message}</p>`;
+        }
+    });
+}
+
+function displayComments(comments, videoTitleMap) {
+    const container = document.getElementById('comment-list-container');
+    container.innerHTML = ''; // Clear loader
+
+    comments.forEach(item => {
+        const topLevelComment = item.snippet.topLevelComment.snippet;
+        const videoId = item.snippet.videoId;
+        const videoTitle = videoTitleMap.get(videoId) || 'Unknown Video';
+        
+        const publishedDate = new Date(topLevelComment.publishedAt);
+        const timeAgoStr = timeAgo(publishedDate);
+
+        const commentElement = document.createElement('div');
+        commentElement.className = 'comment-item';
+        commentElement.innerHTML = `
+            <div class="commenter-avatar">
+                <img src="${topLevelComment.authorProfileImageUrl}" alt="${topLevelComment.authorDisplayName}">
+            </div>
+            <div class="comment-content">
+                <div class="comment-header">
+                    <span class="commenter-name">${topLevelComment.authorDisplayName}</span>
+                    <span class="comment-date">${timeAgoStr}</span>
+                </div>
+                <div class="comment-text">${topLevelComment.textDisplay}</div>
+                <div class="comment-video-context">
+                    Comment on: <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank">${videoTitle}</a>
+                </div>
+                <div class="comment-actions">
+                    <button class="reply-btn" data-comment-id="${item.snippet.topLevelComment.id}">Reply</button>
+                </div>
+            </div>
+        `;
+        container.appendChild(commentElement);
     });
 }
 
