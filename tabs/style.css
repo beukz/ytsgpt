@@ -857,11 +857,14 @@ body {
 }
 
 .reply-controls .generate-reply-btn .loader {
+    display: none;
     width: 16px;
     height: 16px;
     border-width: 2px;
     border-color: #333;
     border-bottom-color: transparent;
+    border-radius: 50%;
+    animation: rotation 1s linear infinite;
 }
 
 /* Custom Dropdown for Dashboard */
