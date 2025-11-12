@@ -1,6 +1,8 @@
 const SUPABASE_URL = "https://qrnnthitqgpiowixmlpd.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFybm50aGl0cWdwaW93aXhtbHBkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc0NDIyMjksImV4cCI6MjA3MzAxODIyOX0.XOde44pjV-jh1ITX9KfWbnJBWg14tuMyqQSFQ4dBtXk";
 
+let savedChannelsCache = null;
+
 // This function checks the URL for auth tokens when the page loads.
 // If tokens are found, it saves them and the user profile to storage.
 async function handleAuthRedirect() {
@@ -257,23 +259,23 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // Check if on Comment Center page
   if (document.body.dataset.title === "Comment Center") {
-    const params = new URLSearchParams(window.location.search);
-    const channelId = params.get('channelId');
-    const channelTitle = params.get('channelTitle');
-
-    const titleHeader = document.getElementById('channel-title-header');
-    if (titleHeader && channelTitle) {
-        titleHeader.textContent = decodeURIComponent(channelTitle);
-    }
-
-    if (channelId) {
-        fetchCommentsForChannel(channelId);
-    } else {
-        const container = document.getElementById('comment-list-container');
-        if(container) {
-          container.innerHTML = '<p>No channel selected. Please go back to the dashboard and select a channel.</p>';
+    chrome.storage.local.get('selectedChannel', ({ selectedChannel }) => {
+        const titleHeader = document.getElementById('channel-title-header');
+        if (selectedChannel) {
+            if (titleHeader) {
+                titleHeader.textContent = selectedChannel.title;
+            }
+            fetchCommentsForChannel();
+        } else {
+            if (titleHeader) {
+                titleHeader.textContent = 'No Channel Selected';
+            }
+            const container = document.getElementById('comment-list-container');
+            if(container) {
+              container.innerHTML = '<p>No channel selected. Please select a channel from the dropdown in the header.</p>';
+            }
         }
-    }
+    });
 
     const commentListContainer = document.getElementById('comment-list-container');
     if (commentListContainer) {
@@ -360,43 +362,90 @@ function authorizeWithYouTube() {
     });
 }
 
-async function fetchAndDisplaySavedChannels() {
+async function getSavedChannels() {
+    if (savedChannelsCache) {
+        return savedChannelsCache;
+    }
     console.log("tabs/script.js: Fetching saved channels from database.");
+    try {
+        const { 'supabase.auth.token': accessToken } = await new Promise(resolve => chrome.storage.local.get(['supabase.auth.token'], resolve));
+        if (!accessToken) throw new Error("Not authenticated.");
+
+        const response = await fetch(`${SUPABASE_URL}/functions/v1/get-yt-channels`, {
+            headers: { 'Authorization': `Bearer ${accessToken}`, 'apikey': SUPABASE_ANON_KEY }
+        });
+        if (!response.ok) throw new Error(`Failed to fetch channels: ${response.statusText}`);
+        
+        const data = await response.json();
+        if (data.success) {
+            savedChannelsCache = data.channels;
+            return data.channels;
+        }
+        return [];
+    } catch (error) {
+        console.error("tabs/script.js: Error fetching saved channels:", error);
+        return [];
+    }
+}
+
+function displayDashboardChannels(channels) {
     const channelsListContainer = document.getElementById('connected-channels-list');
     if (!channelsListContainer) return;
 
-    channelsListContainer.innerHTML = '<p>Loading your channels...</p>';
+    if (channels && channels.length > 0) {
+        channelsListContainer.innerHTML = '';
+        channels.forEach(channel => {
+            // Handle both API and DB data structures
+            const isFromApi = !!channel.snippet;
+            const channelDataForStorage = {
+                channel_id: isFromApi ? channel.id : channel.channel_id,
+                title: isFromApi ? channel.snippet.title : channel.title,
+                thumbnail_url: isFromApi ? channel.snippet.thumbnails.default.url : channel.thumbnail_url,
+                subscriber_count: isFromApi ? parseInt(channel.statistics.subscriberCount, 10) : channel.subscriber_count
+            };
 
-    try {
-        const { 'supabase.auth.token': accessToken } = await new Promise(resolve => chrome.storage.local.get(['supabase.auth.token'], resolve));
-        if (!accessToken) {
-            throw new Error("Not authenticated.");
-        }
+            const channelLink = document.createElement('a');
+            channelLink.className = 'connected-channel-item-link';
+            channelLink.href = `comment-center.html`; 
+            channelLink.dataset.channel = JSON.stringify(channelDataForStorage);
 
-        const response = await fetch(`${SUPABASE_URL}/functions/v1/get-yt-channels`, {
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'apikey': SUPABASE_ANON_KEY
+            channelLink.innerHTML = `
+                <div class="connected-channel-item">
+                    <img src="${channelDataForStorage.thumbnail_url}" alt="${channelDataForStorage.title} thumbnail" class="channel-thumbnail">
+                    <div class="channel-info">
+                        <h4 class="channel-title">${channelDataForStorage.title}</h4>
+                        <p class="channel-subs">${channelDataForStorage.subscriber_count.toLocaleString()} subscribers</p>
+                    </div>
+                </div>
+            `;
+            channelsListContainer.appendChild(channelLink);
+        });
+    } else {
+        channelsListContainer.innerHTML = '<p>Authorize with YouTube to connect your channels.</p>';
+    }
+}
+
+function setupDashboardChannelLinks() {
+    const list = document.getElementById('connected-channels-list');
+    if (list) {
+        list.addEventListener('click', (e) => {
+            const link = e.target.closest('.connected-channel-item-link');
+            if (link) {
+                e.preventDefault();
+                const channelData = JSON.parse(link.dataset.channel);
+                handleChannelSelection(channelData);
+                window.location.href = 'comment-center.html';
             }
         });
-
-        if (!response.ok) {
-            throw new Error(`Failed to fetch channels: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-
-        if (data.success && data.channels.length > 0) {
-            console.log("tabs/script.js: Displaying saved channels.", data.channels);
-            displayChannels(data.channels);
-        } else {
-            console.log("tabs/script.js: No saved channels found.");
-            channelsListContainer.innerHTML = '<p>Authorize with YouTube to connect your channels.</p>';
-        }
-    } catch (error) {
-        console.error("tabs/script.js: Error fetching saved channels:", error);
-        channelsListContainer.innerHTML = '<p>Could not load channels. Please try authorizing again.</p>';
     }
+}
+
+async function fetchAndDisplaySavedChannels() {
+    const channelsListContainer = document.getElementById('connected-channels-list');
+    if (!channelsListContainer) return;
+    channelsListContainer.innerHTML = '<p>Loading your channels...</p>';
+    const channels = await getSavedChannels();
+    displayDashboardChannels(channels);
 }
 
 async function saveChannelsToDB(channels) {
@@ -467,7 +516,7 @@ async function fetchYouTubeChannels(token) {
 
         if (data.items && data.items.length > 0) {
             // Immediately display the channels for a good UX
-            displayChannels(data.items);
+            displayDashboardChannels(data.items);
             // Then, save them to the database in the background
             saveChannelsToDB(data.items);
         } else {
@@ -487,39 +536,6 @@ async function fetchYouTubeChannels(token) {
     }
 }
 
-function displayChannels(channels) {
-    const channelsListContainer = document.getElementById('connected-channels-list');
-    if (!channelsListContainer) return;
-
-    channelsListContainer.innerHTML = ''; 
-
-    channels.forEach(channel => {
-        // The data structure from our DB is slightly different from the YouTube API response.
-        // We need to handle both cases.
-        const isFromApi = !!channel.snippet;
-        
-        const channelId = isFromApi ? channel.id : channel.channel_id;
-        const title = isFromApi ? channel.snippet.title : channel.title;
-        const thumbnailUrl = isFromApi ? channel.snippet.thumbnails.default.url : channel.thumbnail_url;
-        const subscriberCount = isFromApi ? channel.statistics.subscriberCount : channel.subscriber_count;
-
-        const channelLink = document.createElement('a');
-        channelLink.className = 'connected-channel-item-link';
-        channelLink.href = `comment-center.html?channelId=${channelId}&channelTitle=${encodeURIComponent(title)}`;
-
-        channelLink.innerHTML = `
-            <div class="connected-channel-item">
-                <img src="${thumbnailUrl}" alt="${title} thumbnail" class="channel-thumbnail">
-                <div class="channel-info">
-                    <h4 class="channel-title">${title}</h4>
-                    <p class="channel-subs">${parseInt(subscriberCount).toLocaleString()} subscribers</p>
-                </div>
-            </div>
-        `;
-        channelsListContainer.appendChild(channelLink);
-    });
-}
-
 function timeAgo(date) {
     const seconds = Math.floor((new Date() - date) / 1000);
     let interval = seconds / 31536000;
@@ -535,9 +551,18 @@ function timeAgo(date) {
     return Math.floor(seconds) + " seconds ago";
 }
 
-async function fetchCommentsForChannel(channelId) {
+async function fetchCommentsForChannel() {
     const container = document.getElementById('comment-list-container');
     if (!container) return;
+
+    const { selectedChannel } = await new Promise(resolve => chrome.storage.local.get('selectedChannel', resolve));
+
+    if (!selectedChannel) {
+        container.innerHTML = '<p>Please select a channel from the header to view comments.</p>';
+        return;
+    }
+    const channelId = selectedChannel.channel_id;
+
     container.innerHTML = '<div class="loader-container"><span class="loader"></span><p>Fetching comments...</p></div>';
 
     chrome.identity.getAuthToken({ interactive: false }, async function(token) {
@@ -917,16 +942,107 @@ async function checkLoginStatus() {
     }
 
     updateUserInfo(user);
+    initializeChannelSelector();
 
-    // If on dashboard, fetch saved channels
+    // If on dashboard, fetch saved channels and setup links
     if (document.body.dataset.title === "Dashboard") {
         fetchAndDisplaySavedChannels();
+        setupDashboardChannelLinks();
     }
 
   } else {
     console.log("tabs/script.js: User is not logged in. Please log in via the popup.");
     // Loader remains active, showing the login prompt from the HTML.
   }
+}
+
+// Channel Selector Logic
+function updateSelectedChannelDisplay(channel) {
+    const thumb = document.getElementById('selected-channel-thumb');
+    const name = document.getElementById('selected-channel-name');
+    if (thumb && name) {
+        if (channel) {
+            thumb.src = channel.thumbnail_url;
+            name.textContent = channel.title;
+        } else {
+            thumb.src = '/images/icons/ph-user.png';
+            name.textContent = 'Select Channel';
+        }
+    }
+}
+
+function handleChannelSelection(channel) {
+    console.log("Selected channel:", channel);
+    chrome.storage.local.set({ selectedChannel: channel }, () => {
+        updateSelectedChannelDisplay(channel);
+        // If on a channel-dependent page, refresh its content
+        if (document.body.dataset.title === "Comment Center") {
+            // Update header and fetch new comments
+            const titleHeader = document.getElementById('channel-title-header');
+            if (titleHeader) titleHeader.textContent = channel.title;
+            fetchCommentsForChannel();
+        }
+    });
+}
+
+function populateChannelSelector(channels) {
+    const optionsList = document.getElementById('channel-options-list');
+    if (!optionsList) return;
+
+    optionsList.innerHTML = ''; // Clear existing options
+
+    if (!channels || channels.length === 0) {
+        optionsList.innerHTML = '<li>No channels connected.</li>';
+        return;
+    }
+
+    channels.forEach(channel => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <img src="${channel.thumbnail_url}" alt="${channel.title}">
+            <span>${channel.title}</span>
+        `;
+        li.addEventListener('click', () => {
+            handleChannelSelection(channel);
+            optionsList.style.display = 'none'; // Hide dropdown after selection
+        });
+        optionsList.appendChild(li);
+    });
+}
+
+async function initializeChannelSelector() {
+    const selector = document.getElementById('channel-selector-dropdown');
+    if (!selector) return;
+
+    const channels = await getSavedChannels();
+    populateChannelSelector(channels);
+
+    chrome.storage.local.get('selectedChannel', ({ selectedChannel }) => {
+        if (selectedChannel) {
+            // Ensure the selected channel is still in the user's list
+            const stillExists = channels.some(c => c.channel_id === selectedChannel.channel_id);
+            if (stillExists) {
+                updateSelectedChannelDisplay(selectedChannel);
+            } else {
+                // The previously selected channel was removed, clear it
+                chrome.storage.local.remove('selectedChannel');
+                updateSelectedChannelDisplay(null);
+            }
+        } else {
+            updateSelectedChannelDisplay(null);
+        }
+    });
+
+    // Dropdown toggle logic
+    const trigger = selector.querySelector('.dropdown-trigger');
+    const options = selector.querySelector('.dropdown-options');
+    trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        options.style.display = options.style.display === 'block' ? 'none' : 'block';
+    });
+    document.addEventListener('click', () => {
+        options.style.display = 'none';
+    });
 }
 
 // Function to update user info
