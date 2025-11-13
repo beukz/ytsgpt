@@ -628,16 +628,20 @@ body {
 .add-channel-card p {
     font-size: 0.9rem;
     color: var(--textColor);
-    margin-bottom: auto; /* Pushes button to the bottom */
-    padding-bottom: 15px;
 }
 
-#connect-channel-btn {
-    display: inline-block;
+.channel-card-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 15px;
+}
+
+.channel-card-buttons button {
+    flex-grow: 1;
     text-align: center;
     padding: 10px 15px;
     border-radius: 6px;
-    background-color: #c70202;
     color: white;
     text-decoration: none;
     font-weight: 500;
@@ -647,13 +651,26 @@ body {
     cursor: pointer;
 }
 
+#connect-channel-btn {
+    background-color: #c70202;
+}
+
 #connect-channel-btn:hover {
     background-color: #a60202;
 }
 
-#connect-channel-btn:disabled {
+#connect-channel-btn:disabled,
+#logout-yt-btn:disabled {
     background-color: #888;
     cursor: not-allowed;
+}
+
+#logout-yt-btn {
+    background-color: #6c757d;
+}
+
+#logout-yt-btn:hover {
+    background-color: #5a6268;
 }
 
 .add-channel-card .auth-note {

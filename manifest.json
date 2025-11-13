@@ -39,6 +39,7 @@
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
   "host_permissions": [
-    "https://qrnnthitqgpiowixmlpd.supabase.co/*"
+    "https://qrnnthitqgpiowixmlpd.supabase.co/*",
+    "https://www.googleapis.com/*"
   ]
 }

@@ -253,7 +253,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (document.body.dataset.title === "Dashboard") {
     const connectChannelBtn = document.getElementById('connect-channel-btn');
     if (connectChannelBtn) {
-        connectChannelBtn.addEventListener('click', authorizeWithYouTube);
+        connectChannelBtn.addEventListener('click', fetchYouTubeChannels);
     }
   }
 
@@ -337,35 +337,15 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 });
 
-function authorizeWithYouTube() {
-    const btn = document.getElementById('connect-channel-btn');
-    if (!btn) return;
-
-    const originalText = btn.textContent;
-    btn.textContent = 'Authorizing...';
-    btn.disabled = true;
-
-    console.log("tabs/script.js: Starting YouTube authorization flow.");
-    // The 'interactive' flag will prompt the user for consent if needed.
-    chrome.identity.getAuthToken({ interactive: true }, function(token) {
-        if (chrome.runtime.lastError) {
-            console.error("tabs/script.js: getAuthToken failed:", chrome.runtime.lastError.message);
-            alert("Authorization failed. Please ensure you have set your OAuth Client ID in the manifest.json file. Error: " + chrome.runtime.lastError.message);
-            if (btn) {
-                btn.textContent = originalText;
-                btn.disabled = false;
+function getYouTubeToken(interactive = true) {
+    return new Promise((resolve, reject) => {
+        chrome.identity.getAuthToken({ interactive }, (token) => {
+            if (chrome.runtime.lastError) {
+                reject(new Error(chrome.runtime.lastError.message));
+            } else {
+                resolve(token);
             }
-            return;
-        }
-        if (token) {
-            console.log("tabs/script.js: Successfully received auth token.");
-            fetchYouTubeChannels(token);
-        } else {
-            if (btn) {
-                btn.textContent = originalText;
-                btn.disabled = false;
-            }
-        }
+        });
     });
 }
 
@@ -428,7 +408,7 @@ function displayDashboardChannels(channels) {
             channelsListContainer.appendChild(channelLink);
         });
     } else {
-        channelsListContainer.innerHTML = '<p>Authorize with YouTube to connect your channels.</p>';
+        channelsListContainer.innerHTML = '<p>Click the Fetch button to find your channels.</p>';
     }
 }
 
@@ -494,13 +474,29 @@ async function saveChannelsToDB(channels) {
     }
 }
 
-async function fetchYouTubeChannels(token) {
+async function fetchYouTubeChannels() {
     const btn = document.getElementById('connect-channel-btn');
-    const originalText = "Connect / Refresh Channels";
-    if (btn) btn.textContent = 'Fetching Channels...';
+    const originalText = "Fetch / Refresh Channels";
+    if (btn) {
+        btn.textContent = 'Authorizing...';
+        btn.disabled = true;
+    }
 
-    console.log("tabs/script.js: Fetching YouTube channels from API...");
     try {
+        // --- NEW LOGIC TO FORCE ACCOUNT SELECTION ---
+        // 1. Clear all cached tokens for this extension. This is the key to forcing the account chooser.
+        console.log("tabs/script.js: Clearing all cached auth tokens to force account selection.");
+        await new Promise(resolve => chrome.identity.clearAllCachedAuthTokens(resolve));
+        console.log("tabs/script.js: Cached tokens cleared.");
+        // --- END NEW LOGIC ---
+
+        // 2. Now, request a new token interactively. This will always show the account chooser.
+        const token = await getYouTubeToken(true);
+
+        console.log("tabs/script.js: Obtained YouTube API token.");
+        
+        if (btn) btn.textContent = 'Fetching Channels...';
+
         const response = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&mine=true', {
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -508,24 +504,22 @@ async function fetchYouTubeChannels(token) {
             }
         });
 
-        if (!response.ok) {
-            if (response.status === 401) {
-                console.log("tabs/script.js: Auth token is invalid or expired. Removing it.");
-                chrome.identity.removeCachedAuthToken({ token: token }, () => {
-                     alert("Your authorization has expired. Please click the button again.");
-                });
-            }
-            throw new Error(`Google API responded with status: ${response.status}`);
-        }
-
         const data = await response.json();
-        console.log("tabs/script.js: Received channel data from API:", data);
+
+        if (!response.ok) {
+            // Check for specific error related to API not enabled
+            if (data.error && data.error.message && data.error.message.includes("API has not been used in project")) {
+                 throw new Error("The YouTube Data API is not enabled for your Google Cloud project. Please enable it and try again.");
+            }
+            throw new Error(data.error?.message || 'Failed to fetch channels from YouTube API.');
+        }
+        
+        console.log("tabs/script.js: Received channel data from YouTube API:", data);
 
         if (data.items && data.items.length > 0) {
-            // Immediately display the channels for a good UX
-            displayDashboardChannels(data.items);
-            // Then, save them to the database in the background
-            saveChannelsToDB(data.items);
+            await saveChannelsToDB(data.items);
+            savedChannelsCache = null; // Invalidate cache
+            await fetchAndDisplaySavedChannels();
         } else {
             const channelsList = document.getElementById('connected-channels-list');
             if (channelsList) {
@@ -534,7 +528,11 @@ async function fetchYouTubeChannels(token) {
         }
     } catch (error) {
         console.error("tabs/script.js: Error fetching YouTube channels:", error);
-        alert("Failed to fetch your YouTube channels. Please try authorizing again.");
+        if (error.message.includes("The user did not approve access.") || error.message.includes("Authorization failed.")) {
+             alert(`Authorization was cancelled. Please click the button again to connect your channels.`);
+        } else {
+             alert(`Failed to fetch your YouTube channels: ${error.message}. Please try again.`);
+        }
     } finally {
         if (btn) {
             btn.textContent = originalText;
@@ -579,53 +577,45 @@ async function fetchCommentsForChannel() {
 
     container.innerHTML = '<div class="loader-container"><span class="loader"></span><p>Fetching comments...</p></div>';
 
-    chrome.identity.getAuthToken({ interactive: false }, async function(token) {
-        if (chrome.runtime.lastError || !token) {
-            console.error("Could not get auth token:", chrome.runtime.lastError?.message);
-            container.innerHTML = '<p>Error: Could not authenticate. Please re-authorize on the dashboard.</p>';
+    try {
+        const token = await getYouTubeToken();
+        const headers = { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' };
+
+        // 1. Fetch comment threads
+        const commentResponse = await fetch(`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&allThreadsRelatedToChannelId=${channelId}&maxResults=25&order=time`, { headers });
+        const commentData = await commentResponse.json();
+        if (!commentResponse.ok) throw new Error(commentData.error?.message || 'Failed to fetch comments.');
+        
+        const commentItems = commentData.items || [];
+
+        if (commentItems.length === 0) {
+            container.innerHTML = '<p>No recent comments found for this channel.</p>';
             return;
         }
 
-        try {
-            // 1. Fetch comment threads
-            const commentResponse = await fetch(`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&allThreadsRelatedToChannelId=${channelId}&maxResults=25&order=time`, {
-                headers: { 'Authorization': `Bearer ${token}` }
+        // 2. Collect unique video IDs
+        const videoIds = [...new Set(commentItems.map(item => item.snippet.videoId))];
+
+        // 3. Fetch video details in a batch
+        const videoResponse = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoIds.join(',')}`, { headers });
+        const videoData = await videoResponse.json();
+        if (!videoResponse.ok) throw new Error(videoData.error?.message || 'Failed to fetch video details.');
+
+        // 4. Create a video title map
+        const videoTitleMap = new Map();
+        if (videoData.items) {
+            videoData.items.forEach(video => {
+                videoTitleMap.set(video.id, video.snippet.title);
             });
-            if (!commentResponse.ok) throw new Error(`API error fetching comments: ${commentResponse.status}`);
-            const commentData = await commentResponse.json();
-            const commentItems = commentData.items || [];
-
-            if (commentItems.length === 0) {
-                container.innerHTML = '<p>No recent comments found for this channel.</p>';
-                return;
-            }
-
-            // 2. Collect unique video IDs
-            const videoIds = [...new Set(commentItems.map(item => item.snippet.videoId))];
-
-            // 3. Fetch video details in a batch
-            const videoResponse = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoIds.join(',')}`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            if (!videoResponse.ok) console.error(`API error fetching videos: ${videoResponse.status}`); // Don't throw, just log error
-            const videoData = await videoResponse.json();
-            
-            // 4. Create a video title map
-            const videoTitleMap = new Map();
-            if (videoData.items) {
-                videoData.items.forEach(video => {
-                    videoTitleMap.set(video.id, video.snippet.title);
-                });
-            }
-
-            // 5. Display comments
-            displayComments(commentItems, videoTitleMap);
-
-        } catch (error) {
-            console.error("Error fetching comments:", error);
-            container.innerHTML = `<p>An error occurred while fetching comments: ${error.message}</p>`;
         }
-    });
+
+        // 5. Display comments
+        displayComments(commentItems, videoTitleMap);
+
+    } catch (error) {
+        console.error("Error fetching comments:", error);
+        container.innerHTML = `<p>An error occurred while fetching comments: ${error.message}. You may need to re-authorize by clicking 'Fetch / Refresh Channels' on the dashboard.</p>`;
+    }
 }
 
 function displayComments(comments, videoTitleMap) {
@@ -812,48 +802,39 @@ async function postReply(commentId) {
     sendBtn.textContent = 'Sending...';
     sendBtn.disabled = true;
 
-    chrome.identity.getAuthToken({ interactive: false }, async function(token) {
-        if (chrome.runtime.lastError || !token) {
-            alert('Could not authenticate. Please re-authorize on the dashboard.');
-            sendBtn.textContent = 'Send';
-            sendBtn.disabled = false;
-            return;
-        }
-
-        try {
-            const response = await fetch('https://www.googleapis.com/youtube/v3/comments?part=snippet', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    snippet: {
-                        parentId: commentId,
-                        textOriginal: replyText
-                    }
-                })
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                const errorMessage = data.error?.errors?.[0]?.message || data.error?.message || 'Failed to post reply.';
-                throw new Error(errorMessage);
+    try {
+        const token = await getYouTubeToken();
+        const body = {
+            snippet: {
+                parentId: commentId,
+                textOriginal: replyText
             }
+        };
+        
+        const response = await fetch('https://www.googleapis.com/youtube/v3/comments?part=snippet', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
 
-            alert('Reply posted successfully!');
-            textarea.value = '';
-            toggleReplyBox(commentId);
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error?.message || 'Failed to post reply.');
 
-        } catch (error) {
-            console.error('Error posting reply:', error);
-            alert(`Failed to post reply: ${error.message}`);
-        } finally {
-            sendBtn.textContent = 'Send';
-            sendBtn.disabled = false;
-        }
-    });
+        alert('Reply posted successfully!');
+        textarea.value = '';
+        toggleReplyBox(commentId);
+
+    } catch (error) {
+        console.error('Error posting reply:', error);
+        alert(`Failed to post reply: ${error.message}`);
+    } finally {
+        sendBtn.textContent = 'Send';
+        sendBtn.disabled = false;
+    }
 }
 
 function setupPricingToggles() {
@@ -940,8 +921,7 @@ async function validateAndRefreshSession() {
                 method: "GET",
                 headers: { "apikey": SUPABASE_ANON_KEY, "Authorization": `Bearer ${accessToken}` },
             }
-        );
-        
+        ); 
         const data = await response.json();
 
         if (response.ok && data.success) {
