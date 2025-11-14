@@ -4,15 +4,8 @@
   "version": "0.11",
   "description": "Quickly reply to your YouTube channel comments in 3 click using AI",
   "permissions": [
-    "storage",
-    "identity"
+    "storage"
   ],
-  "oauth2": {
-    "client_id": "837342033883-0e440n0r4b93dnrag9sqek58iff8oe9v.apps.googleusercontent.com",
-    "scopes": [
-      "https://www.googleapis.com/auth/youtube.force-ssl"
-    ]
-  },
   "icons": {
     "48": "images/ytsgpt-logo.png"
   },
@@ -39,7 +32,6 @@
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
   "host_permissions": [
-    "https://qrnnthitqgpiowixmlpd.supabase.co/*",
-    "https://www.googleapis.com/*"
+    "https://qrnnthitqgpiowixmlpd.supabase.co/*"
   ]
 }
